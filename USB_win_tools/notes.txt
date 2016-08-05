@@ -1,0 +1,78 @@
+installer python
+
+utiliser zadig pour lier le device avec libusb-win32
+
+installer pyUSB:
+python setup.py install
+
+nasty bug:
+
+that works:
+
+uint8_t p0, p1, p2;
+p0 = rxMessage.Payload[0];
+p1 = rxMessage.Payload[1];
+p2 = rxMessage.Payload[2];
+LCD_Erase();
+sprintf((char *)&(LCDText), (char*)"p0p1: %02x%02x", p0, p1);
+sprintf((char *)&(LCDText[16]), (char*)"length,p2: %i,%02x", rxMessage.PayloadSize, p2);
+LCD_Update();
+wait_for_1_sec();
+if (p0 == 0x13)
+{
+    LCD_Erase();
+    sprintf((char *)&(LCDText), (char*)"test0: OK");
+    LCD_Update();
+    wait_for_1_sec();
+
+    if (p1 == 0x37)
+    {
+        LCD_Erase();
+        sprintf((char *)&(LCDText), (char*)"test1: OK");
+        LCD_Update();
+        wait_for_1_sec();
+    }
+    else
+    {
+        LCD_Erase();
+        sprintf((char *)&(LCDText), (char*)"test1: FAILED");
+        sprintf((char *)&(LCDText[16]), (char*)"p[1]: %02x", p1);
+        LCD_Update();
+        wait_for_1_sec();
+    }
+}
+
+
+that SHOULD work, shoudln't it ?
+Well, test0 is OK, but test1 FAILS!?!
+
+LCD_Erase();
+sprintf((char *)&(LCDText), (char*)"payload1: %02x%02x", rxMessage.Payload[0], rxMessage.Payload[1]);
+LCD_Update();
+wait_for_1_sec();
+if (rxMessage.Payload[0] == 0x13)
+{
+    LCD_Erase();
+    sprintf((char *)&(LCDText), (char*)"test0: OK");
+    LCD_Update();
+    wait_for_1_sec();
+    wait_for_1_sec();
+
+    if (rxMessage.Payload[1] == 0x37)
+    {
+        LCD_Erase();
+        sprintf((char *)&(LCDText), (char*)"test1: OK");
+        LCD_Update();
+        wait_for_1_sec();
+        wait_for_1_sec();
+    }
+    else
+    {
+        LCD_Erase();
+        sprintf((char *)&(LCDText), (char*)"test1: FAILED");
+        sprintf((char *)&(LCDText[16]), (char*)"p[1]: %02x", rxMessage.Payload[1]);
+        LCD_Update();
+        wait_for_1_sec();
+        wait_for_1_sec();
+    }
+}

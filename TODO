@@ -1,0 +1,12 @@
+TODO
+
+Quand/si le script python tombe/crashe, l'opérateur continue sa vie et discute avec les nodes?
+Apparemment...
+Mais pas d'ack aux messages d'UPDATE => au bout de X essais, reset des nodes? et comme pas de script python, plus possible de se reconnecter?
+=> tourne en boucle à recherche réseau?
+=> tester & vérifier dans le code
+Que fait l'opérateur quand pas d'ack à ses updates?
+Il devrait se mettre en restart? y réfléchir...
+
+utiliser une variable qui compte le nombre de retry depuis le lancement, pas un pourcentage ridicule...
+

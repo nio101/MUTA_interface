@@ -1,0 +1,2 @@
+short_addr|UID|alias|description|sleeping|last_seen_ts|RO_values|RW_values|pending_updates
+0000|0003ff01|operator#1|unit#01, operator mk3/basecamp|False|2016-08-05 15:18:11|{"Upt": "0s", "Nse": "42", "Chn": "0"}|{"UpF": "1mn", "Pwr": "4"}|{}

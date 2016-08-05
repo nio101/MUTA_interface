@@ -1,0 +1,367 @@
+Files used by this script:
+==========================
+config.ini -> log file, USB vendor & product indicates
+authorized_units.csv -> list of units authorized for registering:
+                        UID|alias|description
+                            UID = Unique Id == Model+Make+sub_UID
+                            ex.: 01 02 FF 01 -> scout mk2 #FF01
+                            Models:
+                                    00: operator
+                                    01: scout
+                                    02: enforcer
+network_description.csv -> read-only network description table, reflects the current state of the network/nodes/values.
+                    short_addr|UID|alias|description|power|last_RSSI|last_seen_ts|readonly_values_list(label: 'value')|readwrite_values_list(label: 'value')
+                    ex.: 0001|0102FF01|scout1|garden|1mW|70%|2012-12-15 01:21:05|{'Tp':'21.3°C', 'Vb':'2.5V','Lt':'78%','Pr':true,'Fq':'1mn', 'Cha':'12'}|{'Pwr':'0.15mW'}
+pending_updates.csv -> csv file that lists the pending updates for sleeping units/values (updates are sent in realtime to always-on units if they're in the network_description - if they are alive, else it is written in pending_updates.csv)
+                    short_addr|pending_values_update_dict
+                    0001|{'Sp':0.5}
+                    example to manually update a unit's value: echo "{'Sp':0.5}" >> MUTA_network_input.csv (or similar type command under windows)
+
+update cycles
+=============
+
+    all units (of any type) send their values periodically
+    for always-on units, it is used as a keep_alive mechanism
+    the unit send UPDATE messages with a max of 3 values per message.
+    last_one is set only for the last message
+
+    when an value change is required for an always-on unit, the update request is immediatly sent to it, and it should answer with an update reflecting the new values.
+
+    when the PC receives and UPDATE for values, it cleans the pending updates for those variables if the value matches
+    else, it sends back the pending updates.
+
+    for all units, when an non-empty UPDATE is received, the changes are made and a new UPDATE is sent with the new values
+    if the UPDATE is empty, nothing needs to be done.
+
+
+security, network reset and short addresses issues
+==================================================
+When the network is reset (script & PAN operator reset), already connected nodes won't know it until they try to send some update.
+It can lead to problems when 2 nodes will try to answer to a same short address, or a node will send a message filling an already assigned short address.
+We will address that using a randomly generated 16bit value (given by the PC script), that will be sent to every unit in the
+network_register answer.
+The nodes will use unencrypted messages until they receive the random 16bit value. After that, they will use encrypted messages, using the 16bit value
+to alter the default 8 bytes key.
+When the network is reset, only the nodes using the new/right encryption key will be able to communicate with each other and with the PC script, eliminating all same short address problems.
+
+
+Messages exchanged between PC operator script and the operator unit:
+====================================================================
+
+    Reset command sent by script to operator (if needed, in case script is restarted)
+    X
+
+    Info sent by the operator (unit -> python):
+    I+info_text(size must be less than 63 byte)
+    * this is a text message
+
+    Message received by operator (unit -> python):
+    M+short_address(2 bytes)+payload
+    * this is a binary message, not text
+
+    Message to be sent by operator (python -> unit):
+    S+long_address(4 bytes)+payload_size(1byte)+payload
+    * this is a binary message, not text
+
+script/operator init phase:
+===========================
+operator inits ouioui stack, then sends a NETWORK_REGISTER(UID)
+script clears the nerwork description and waits for a NETWORK_REGISTER(UID) from 0000
+upon reception, it checks if operator's UID is authorized
+if timeout or receiving any other message than INFO, then the script sends a RESET command to operator
+if operator is authorized, the script answers with a NETWORK_REGISTER(true), else (false) -> alarm + operator resets
+operator then send an UPDATE on its values: power, channel(byte), channel_noise(byte), PANID(2 bytes)
+    power is RW, channel and channel_noise and PANID are RO
+    they are only sent at start and when a new value has been written (power)
+
+MUTA messages have a maximum length of 21 bytes of payload and are structured
+like this:
+=============================================================================
+    Command(1 byte) + Parameters(max 20 bytes)
+
+        All messages are encrypted - really? should not with the dynamic encryption key modif... -
+
+    Command values: end unit -> operator
+        01 POWER_TEST ->(power_lvl) <-(power_lvl, RSSI)
+        02 NETWORK_REGISTER ->(UID, sleeping_device) <-(authorized, encryption_byte1, encryption_byte2)
+        03 PING ->(test_payload) <-(test_payload)
+        04 UPDATE ->(last_update, values) <-(last_update, values)
+
+    Values/Parameters encoding for UPDATE messages is done in a custom msgpack-like way, but largely simplified (let's call it MUTApack!)
+    The idea is to keep it easy to encode/decode, while keeping the encoding size limited, since we are using small payload messages.
+    Structure of parameter map encoding:
+        list_of_items(max 18 bytes)
+    ========================================================
+        with each item:
+            label (3-char-string), ex.: 'BVo' for battery voltage
+            +type (1 byte), used to encode/decode and interpret item:
+                A(3bit)+B(1bit)+C(1bit)+D(3bit)
+                A: the encoding/decoding type
+                B: 1 if a variable is writable, 0 if read-only
+                C: unused (let's put 0 here meanwhile)
+                D: unit type
+            +value (1-2 bytes, depends on type)
+
+            => each item has a size of 5-6 bytes. So we can send a maximum of 3 values per message (6x3 = 18 <= 19)
+
+            encoding/decoding type values used so far: (3bits)
+            ===========================================
+                0:  uint8/short 1-byte long integer, unsigned (0-255)
+                    value: 1 byte
+                    ex.: 58 59 00 27 -> 'XY' = 39 (decimal)
+                1:  uint16/2-byte long integer, unsigned (0-65535)
+                    value: 2 byte
+                2:  fixed16/'short float', the first byte is the short integer part,
+                                   the second byte gives 1/100th of the value
+                    value: 2 bytes
+                    ex.: 58 59 20 03 27 -> 'XY' = 3.039
+                3:  boolean
+                    value: 1 byte, 0xF0 for False, 0xFF for True
+                    ex.: 58 59 30 FF -> 'XY' = True
+
+            measuring unit values used so far: (3bits)
+            ==================================
+                0:  no unit / used for booleans too
+                1:  °C (temperature in degrees)
+                2:  V (voltage)
+                3:  % (percentage)
+                4:  mn (minutes)
+                5:  s (seconds)
+                6:  h (hours)
+                7:  d (days)
+
+            Exemples for type encoding:
+                60 (011 0 0 000) -> boolean, no unit, read-only
+                70 (011 1 0 000) -> boolean, no unit, writable
+                42 (010 0 0 010) -> short float, V, read-only
+
+            Combinations of values/types taken into account/recognized using regexp:
+            "15.35°C" -> fixed16/°C
+            "14" -> uint8/no_unit
+            "3870" -> uint16/no_unit
+            "3.25V" -> fixed16/V
+            "12%" -> uint8/percent
+            "3mn" -> uint8/mn
+
+Power levels:
+/*
+#define TX_POWER_13_DB      0x00    //[3:1], 13dBm  => 20mW (interdit en France)
+#define TX_POWER_10_DB      0x01    //10dBm         => 10mW
+#define TX_POWER_7_DB       0x02    //7dBm          => 5mW
+#define TX_POWER_4_DB       0x03    //4dBm          => 2.5mW
+#define TX_POWER_1_DB       0x04    //1dBm          => 1.2mW
+#define TX_POWER_N_2_DB     0x05    //-2dBm         => 0.6mW
+#define TX_POWER_N_5_DB     0x06    //-5dBm         => 0.3mW
+#define TX_POWER_N_8_DB     0x07    //-8dBm         => 0.15mW
+*/
+
+Power levels can be changed dynamicaly
+
+empirical experience / RSSI acceptable values:
+One should keep power levels so RSSI for messages are > 30.
+With RSSI <= 30, errors appear too frequently when sending/receiving messages.
+
+---------------------------------------------------------
+How-to easily modify a firmware's UID and security key:
+use memory mapping of myMODEL, myUID and mySecurityKey
+    myMODEL[2] @ 0x01FFF4 ()       // model of the unit (00: operator, 01:scout, 02:enforcer...)
+                                                    // + make of the unit (1 for mk1, 2 for mk2...)
+    myUID[2] @ 0x01FFF6               // unique two-bytes ID (for this make/model combination)
+    mySecurityKey[8] @ 0x01FEC    // security key used to encrypt/decrypt network messages
+use HEXMATE (command line utility that comes with MPLABX) to modify them without recompiling
+HEXMATE source.hex -FILL=0xBEEF@0x1000 -Odest.hex
+----------------------------------------------------------
+NOTES Miwi
+
+Mettre un ConnectionMode(DISABLE_ALL_CONN) sur les scouts et end devices
+=> ils ne répondront pas aux active scan et aux demandes de connection
+
+------------------------------------------------------------------------------
+Liste des fonctions de l'API OUIOUI:
+====================================
+bool MiApp_ProtocolInit(FALSE) // false for networkfreezer/nvm use
+
+MiApp_NoiseDetection    => scan for noise/nergy or porteuse (PAN)
+
+MiApp_SearchConnection => scan for existing networks
+
+bool MiApp_SetChannel(channel)
+
+MiApp_ConnectionMode => if device responding to connections/active scans ?
+
+bool MiApp_StartConnection(START_CONN_DIRECT, 0,0)  // start a network
+
+MiApp_EstablishConnection(ScanIndex, MODE_DIRECT)   // join a network through a PAN or coordinator
+
+MiApp_FlushTx() => vide le buffer d'envoi / reset
+MiApp_WriteData(byte) => ajoute un octet utilise au message à envoyer
+
+* 3 choix pour l'envoi:
+- broadcast => all devices receive the message
+- unicast with shortaddress
+- unicast with longaddress
+
+MiApp_Broadcast(Sec_enabled)
+MiApp_UnicastConnection(ConnectionIndex, Sec_enabled)
+MiApp_UnicastAddress(*address, bool IsLongAddress, bool Sec_enabled)
+
+MiApp_MessageAvailable() -> test if new message has been received
+
+MiApp_DiscardMessage() -> flush the received message
+
+MiApp_RemoveConnection(ConnectionIndex)
+
+MiApp_TransceiverPowerStat(POWER_STATE_SLEEP/POWER_STATE_WAKEUP) -> put the MRF89XA to sleep/wake it up
+
+// channel hopping / frequency agility
+// prevent noise problems + hack is more difficult
+
+MiApp_InitChannelHopping(channelmap)
+
+for sleeping devices which didn't see it:
+MiApp_ResyncConnection(connections index, channelmap)
+------------------------------------------------------------------------------
+SCAN CONNECTIONS RESULT:
+
+    typedef struct
+    {
+        uint8_t     Channel;                        // Operating Channel of the PAN
+        uint8_t        Address[MY_ADDRESS_LENGTH];     // Responding device address
+        API_UINT16_UNION    PANID;                          // PAN Identifier
+        uint8_t       RSSIValue;                      // RSSI value for the response
+        uint8_t        LQIValue;                       // LQI value for the response
+        union
+        {
+            uint8_t        Val;
+            struct
+            {
+                uint8_t    Role:        2;              // Role of the responding device in the PAN
+                uint8_t    Sleep:       1;              // Whether the responding device goes to sleep when idle
+                uint8_t    SecurityEn:  1;              // Whether the responding device is capable of securing the data
+                uint8_t    RepeatEn:    1;              // Whether the responding device allow repeat
+                uint8_t    AllowJoin:   1;              // Whether the responding device allows other device to join
+                uint8_t    Direct:      1;              // Whether the responding device in radio range or through a repeater
+                uint8_t    altSrcAddr: 1;              // Whether the Address is alternative network address or permanent address
+            } bits;
+        } Capability;
+    } ACTIVE_SCAN_RESULT;
+
+    extern ACTIVE_SCAN_RESULT ActiveScanResults[ACTIVE_SCAN_RESULT_SIZE];
+------------------------------------------------------------------------------
+CONNECTIONS:
+
+    typedef union __CONNECTION_STATUS
+    {
+        uint8_t Val;
+        struct _CONNECTION_STAUTS_bits
+        {
+            uint8_t RXOnWhenIdle       :1;     //1 = transceiver always on, 0 = transceiver sleeps when idle
+            uint8_t directConnection   :1;     //1 = can talk to this device directly, 0 = must route to this device
+            uint8_t longAddressValid   :1;     //1 = long address valid, 0 = long address unknown
+            uint8_t shortAddressValid  :1;     //1 = short address valid, 0 = short address unknown
+            uint8_t FinishJoin         :1;     //1 = already finish joining procedure, 0 = in the process of join
+            uint8_t isFamily           :1;     //1 = family member (parent/child), 0 = not family
+            uint8_t filler             :1;
+            uint8_t isValid            :1;     //1 = this entry is valid, 0 = this entry is not valid
+        } bits;   
+    } CONNECTION_STATUS;
+
+
+typedef struct __CONNECTION_ENTRY
+    {
+            API_UINT16_UNION    PANID;                      // PAN Identifier of the peer device.
+            API_UINT16_UNION    AltAddress;                 // Alternative address of the peer device. - SHORT ADDRESS
+
+        uint8_t        Address[MY_ADDRESS_LENGTH];     // Permanent address of peer device - LONG ADDRESS
+        
+        CONNECTION_STATUS status;
+        
+    } CONNECTION_ENTRY;
+
+CONNECTION_ENTRY    ConnectionTable[CONNECTION_SIZE];
+------------------------------------------------------------------------------
+MESSAGE RECU:
+
+typedef struct
+    {
+        union
+        {
+            uint8_t Val;
+            struct
+            {
+                uint8_t     broadcast:  2;      // 1: broadcast message
+                uint8_t     ackReq:     1;      // 1: sender request acknowledgement in MAC.
+                uint8_t     secEn:      1;      // 1: application payload has been secured
+                uint8_t     repeat:     1;      // 1: message received through a repeater
+                uint8_t     command:    1;      // 1: message is a command frame
+                uint8_t        srcPrsnt:   1;      // 1: source address present in the packet
+                uint8_t        altSrcAddr: 1;      // 1: source address is alternative network address
+            } bits;
+        }  flags;
+
+        API_UINT16_UNION    SourcePANID;                // PAN Identifier of the sender
+        uint8_t     *SourceAddress;             // pointer to the source address
+        uint8_t     *Payload;                   // pointer to the application payload
+        uint8_t     PayloadSize;                // application payload length
+        uint8_t     PacketRSSI;                 // RSSI value of the receive message
+        uint8_t     PacketLQI;                  // LQI value of the received message
+
+    } RECEIVED_MESSAGE;
+------------------------------------------------------------------------------
+operator:
+=========
+0) ConnectionMode(DISABLE_ALL_CONN)
+1) uint8_t BestChannel = MiApp_NoiseDetection(BASIC_CHANNELS_TEST, 14, NOISE_DETECT_ENERGY, &noise_level);
+2) MiApp_SetChannel(BestChannel)
+3) MiApp_StartConnection(START_CONN_DIRECT, 0, 0);
+4) MiApp_ConnectionMode();
+5) when ready: MiApp_ConnectionMode(ENABLE_ALL_CONN);
+6) if(MiApp_MessageAvailable())
+        {   ... }
+7) MiApp_UnicastAddress(&shortaddress, false, false)
+            
+scout:
+======
+0) ConnectionMode(DISABLE_ALL_CONN)
+1) scanresult = MiApp_SearchConnection(14, COMPLETE_CHANNELS_TEST);
+2) MiApp_EstablishConnection(best_candidate, CONN_MODE_DIRECT);
+3) MiApp_UnicastAddress(&shortaddress, false, false)
+4) if(MiApp_MessageAvailable())
+            {
+                // message received
+                //if(rxMessage.Payload[0] == 0x13 && rxMessage.Payload[1] == 0x37)
+                counter = rxMessage.Payload[2];
+                MiApp_DiscardMessage();
+                break;
+            }
+
+repeater:
+=========
+
+0) ConnectionMode(DISABLE_ALL_CONN)
+1) MiApp_SearchConnection(14, COMPLETE_CHANNELS_TEST);
+2) MiApp_EstablishConnection(j, CONN_MODE_DIRECT);
+3) when ready: MiApp_ConnectionMode(ENABLE_ALL_CONN);
+4) if(MiApp_MessageAvailable())
+        MiApp_DiscardMessage();
+
+--------------------------------------------------------------------------
+
+basecamp ZMQ messaging facility
+
+PUB/SUB mechanism with
+socket_send = context.socket(zmq.PUB)
+socket_send.connect("tcp://127.0.0.1:5000")
+&&
+socket_receive = context.socket(zmq.SUB)
+socket_receive.connect("tcp://127.0.0.1:5001")
+
+note: A ZMQ PUB/SUB forwarder must be used to allow multiple publishers/subscribers.
+
+topic filtering is used to filter orders/reports and categories/topics
+base topic: basecamp
+muta topics: basecamp.muta
+subtopics:  basecamp.muta.orders -> received by muta operator, mainly updates with alias and values
+            basecamp.muta.reports -> sent by muta operator on update messages, with unit's alias and all current values
+other topic:
+basecamp.watchdog -> sent by muta operator (muta operator, status) every minute to inform the watchdog of the muta network's status

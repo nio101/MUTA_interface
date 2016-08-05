@@ -1,0 +1,197 @@
+questions à adresser...
+
+* quand un operateur disconnecte et revient, un scout peut lui envoyer un message sans reinit, mais l'operateur ne peut pas lui répondre...
+=> si un autre scout utilise la même adresse dans le nouveau réseau que le scout qui est encore dans l'ancien, il va se fait passer
+pour lui -> toujours transmettre l'UID et l'utiliser comme réel identifiant
+L'adresse locale est juste stockée pour pouvoir communiquer avec lui, mais on transmet aussi en retour l'UID et chaque scout vérifie que c'est bien pour lui avant d'interpréter.
+résumé: utiliser l'UID pour valider les messages dans les deux sens, la short address ne sert que d'alias
+=> est-ce qu'on ne pourrait pas directement utiliser la long address[4]==myMODEL+myUID ?
+ce serait l'idéal...
+UnicastAddress an long adress ?
+/OK, on peut le faire.
+
+PacketLQI... == qualité, à exploiter, en complément de RSSI==puissance du signal
+
+implémenter une commande au niveau du PAN qui permet de dumper le tableau des connections et checker les infos disponibles
+dans le cas normal + cas d'erreurs (ex.: PAN remonte le réseau et recoit un message d'un scout toujours dans l'ancien réseau)
+
+est-ce que active scan result contient aussi des end devices ? on dirait puisqu'il y a l'option sleep dans les flags de résultat...
+faire le test (il faut 2 scouts!)
+Si oui, limiter la connection aux devices PAN/coordinators
+/OK, les end devices ne répondront pas aux scans
+
+Mettre un ConnectionMode(DISABLE_ALL_CONN) sur les scouts et end devices
+=> ils ne répondront pas aux active scan et aux demandes de connection
+
+Implémenter un scout sur l'ancien proto d'opérateur et un PAN sur le nouveau...
+=> dumper les tables de scan et les tables de connection
+pui ajouter 2 coordinators (cartes protos) et le (vrai) scout
+=> check tables et des différents cas/tests déco/reco, etç...
+
+
+
+------------------------------------------------------------------------------
+Liste des fonctions de l'API OUIOUI:
+====================================
+bool MiApp_ProtocolInit(FALSE) // false for networkfreezer/nvm use
+
+MiApp_NoiseDetection	=> scan for noise/nergy or porteuse (PAN)
+
+MiApp_SearchConnection => scan for existing networks
+
+bool MiApp_SetChannel(channel)
+
+MiApp_ConnectionMode => if device responding to connections/active scans ?
+
+bool MiApp_StartConnection(START_CONN_DIRECT, 0,0)	// start a network
+
+MiApp_EstablishConnection(ScanIndex, MODE_DIRECT)	// join a network through a PAN or coordinator
+
+MiApp_FlushTx() => vide le buffer d'envoi / reset
+MiApp_WriteData(byte) => ajoute un octet utilise au message à envoyer
+
+* 3 choix pour l'envoi:
+- broadcast => all devices receive the message
+- unicast with shortaddress
+- unicast with longaddress
+
+MiApp_Broadcast(Sec_enabled)
+MiApp_UnicastConnection(ConnectionIndex, Sec_enabled)
+MiApp_UnicastAddress(*address, bool IsLongAddress, bool Sec_enabled)
+
+MiApp_MessageAvailable() -> test if new message has been received
+
+MiApp_DiscardMessage() -> flush the received message
+
+MiApp_RemoveConnection(ConnectionIndex)
+
+MiApp_TransceiverPowerStat(POWER_STATE_SLEEP/POWER_STATE_WAKEUP) -> put the MRF89XA to sleep/wake it up
+
+// channel hopping / frequency agility
+// prevent noise problems + hack is more difficult
+
+MiApp_InitChannelHopping(channelmap)
+
+for sleeping devices which didn't see it:
+MiApp_ResyncConnection(connections index, channelmap)
+------------------------------------------------------------------------------
+SCAN CONNECTIONS RESULT:
+
+    typedef struct
+    {
+        uint8_t		Channel;                        // Operating Channel of the PAN
+        uint8_t        Address[MY_ADDRESS_LENGTH];     // Responding device address
+        API_UINT16_UNION    PANID;                          // PAN Identifier
+        uint8_t       RSSIValue;                      // RSSI value for the response
+        uint8_t        LQIValue;                       // LQI value for the response
+        union
+        {
+            uint8_t        Val;
+            struct
+            {
+                uint8_t    Role:		2;              // Role of the responding device in the PAN
+                uint8_t    Sleep:		1;              // Whether the responding device goes to sleep when idle
+                uint8_t    SecurityEn:	1;              // Whether the responding device is capable of securing the data
+                uint8_t    RepeatEn:	1;              // Whether the responding device allow repeat
+                uint8_t    AllowJoin:	1;              // Whether the responding device allows other device to join
+                uint8_t    Direct:		1;              // Whether the responding device in radio range or through a repeater
+                uint8_t    altSrcAddr: 1;              // Whether the Address is alternative network address or permanent address
+            } bits;
+        } Capability;
+    } ACTIVE_SCAN_RESULT;
+
+    extern ACTIVE_SCAN_RESULT ActiveScanResults[ACTIVE_SCAN_RESULT_SIZE];
+------------------------------------------------------------------------------
+CONNECTIONS:
+
+    typedef union __CONNECTION_STATUS
+    {
+        uint8_t Val;
+        struct _CONNECTION_STAUTS_bits
+        {
+            uint8_t RXOnWhenIdle       :1;     //1 = transceiver always on, 0 = transceiver sleeps when idle
+            uint8_t directConnection   :1;     //1 = can talk to this device directly, 0 = must route to this device
+            uint8_t longAddressValid   :1;     //1 = long address valid, 0 = long address unknown
+            uint8_t shortAddressValid  :1;     //1 = short address valid, 0 = short address unknown
+            uint8_t FinishJoin         :1;     //1 = already finish joining procedure, 0 = in the process of join
+            uint8_t isFamily           :1;     //1 = family member (parent/child), 0 = not family
+            uint8_t filler             :1;
+            uint8_t isValid            :1;     //1 = this entry is valid, 0 = this entry is not valid
+        } bits;   
+    } CONNECTION_STATUS;
+
+
+typedef struct __CONNECTION_ENTRY
+    {
+            API_UINT16_UNION    PANID;                      // PAN Identifier of the peer device.
+            API_UINT16_UNION    AltAddress;                 // Alternative address of the peer device. - SHORT ADDRESS
+
+        uint8_t        Address[MY_ADDRESS_LENGTH];     // Permanent address of peer device - LONG ADDRESS
+        
+        CONNECTION_STATUS status;
+        
+    } CONNECTION_ENTRY;
+
+CONNECTION_ENTRY    ConnectionTable[CONNECTION_SIZE];
+------------------------------------------------------------------------------
+MESSAGE RECU:
+
+typedef struct
+    {
+        union
+        {
+            uint8_t Val;
+            struct
+            {
+                uint8_t		broadcast:  2;      // 1: broadcast message
+                uint8_t		ackReq:     1;      // 1: sender request acknowledgement in MAC.
+                uint8_t		secEn:      1;      // 1: application payload has been secured
+                uint8_t		repeat:     1;      // 1: message received through a repeater
+                uint8_t		command:    1;      // 1: message is a command frame
+                uint8_t        srcPrsnt:   1;      // 1: source address present in the packet
+                uint8_t        altSrcAddr: 1;      // 1: source address is alternative network address
+            } bits;
+        }  flags;
+
+        API_UINT16_UNION    SourcePANID;                // PAN Identifier of the sender
+        uint8_t		*SourceAddress;             // pointer to the source address
+        uint8_t		*Payload;                   // pointer to the application payload
+        uint8_t		PayloadSize;                // application payload length
+        uint8_t		PacketRSSI;                 // RSSI value of the receive message
+        uint8_t 	PacketLQI;                  // LQI value of the received message
+
+    } RECEIVED_MESSAGE;
+------------------------------------------------------------------------------
+operator:
+=========
+1) uint8_t BestChannel = MiApp_NoiseDetection(BASIC_CHANNELS_TEST, 14, NOISE_DETECT_ENERGY, &noise_level);
+2) MiApp_SetChannel(BestChannel)
+3) MiApp_ConnectionMode(ENABLE_ALL_CONN);
+4) MiApp_StartConnection(START_CONN_DIRECT, 0, 0);
+5) if(MiApp_MessageAvailable())
+        {	... }
+6) MiApp_UnicastAddress(&shortaddress, false, false)
+        	
+scout:
+======
+1) scanresult = MiApp_SearchConnection(14, COMPLETE_CHANNELS_TEST);
+2) MiApp_EstablishConnection(best_candidate, CONN_MODE_DIRECT);
+3) MiApp_UnicastAddress(&shortaddress, false, false)
+4) if(MiApp_MessageAvailable())
+            {
+                // message received
+                //if(rxMessage.Payload[0] == 0x13 && rxMessage.Payload[1] == 0x37)
+                counter = rxMessage.Payload[2];
+                MiApp_DiscardMessage();
+            	break;
+            }
+
+repeater:
+=========
+
+1) MiApp_SearchConnection(14, COMPLETE_CHANNELS_TEST);
+2) MiApp_ConnectionMode(ENABLE_ALL_CONN);
+3) MiApp_EstablishConnection(j, CONN_MODE_DIRECT);
+4) if(MiApp_MessageAvailable())
+		MiApp_DiscardMessage();
+
