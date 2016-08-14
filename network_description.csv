@@ -1,2 +1,4 @@
 short_addr|UID|alias|description|sleeping|last_seen_ts|RO_values|RW_values|pending_updates
-0000|0003ff01|operator#1|unit#01, operator mk3/basecamp|False|2016-08-05 15:18:11|{"Upt": "0s", "Nse": "42", "Chn": "0"}|{"UpF": "1mn", "Pwr": "4"}|{}
+0000|00030001|operator#1|unit#01, operator mk3/basecamp|False|2016-08-14 16:55:12|{"Chn": "0", "Nse": "42", "Upt": "3h"}|{"Pwr": "0", "UpF": "1mn"}|{}
+0001|01020002|scout#2|unit#02, scout mk2/dormant|True|2016-08-14 16:55:20|{"FlM": "0.62%", "Lit": "81%", "Tmp": "26.68C", "Upt": "3h", "VBa": "2.63V"}|{"Pwr": "2", "UpF": "1mn"}|{}
+0002|01020004|scout#4|unit#04, scout mk2/dormant|True|2016-08-14 16:55:16|{"FlM": "2.56%", "Lit": "64%", "Tmp": "25.12C", "Upt": "13mn", "VBa": "2.59V"}|{"Pwr": "6", "UpF": "1mn"}|{}

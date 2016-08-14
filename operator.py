@@ -5,7 +5,7 @@
 """
 MUTA operator
 
-Interface between the basecamp and the MUTA network through the main operator unit
+USB Interface between Basecamp and MUTA network's main operator
 
 Copyright (2015-2016) Nicolas Barthe,
 distributed as open source under the terms
@@ -16,10 +16,8 @@ of the GNU General Public License (see COPYING.txt)
 import usb.core
 import usb.util
 import sys
-import array
 from time import sleep
 import datetime
-import threading
 import re
 import csv
 import json
@@ -30,7 +28,6 @@ import logging.handlers
 import portalocker
 import zmq
 import msgpack
-import io
 import random
 
 
@@ -97,10 +94,10 @@ def update_network_description_file():
         portalocker.lock(csvfile, portalocker.LOCK_EX)
         csvfile.write(network_description_headers + '\n')
         csv_writer = csv.writer(csvfile, delimiter='|', quotechar='\'', lineterminator='\n')
-        for short_addr in network_description.keys():
-            m_RO_values_json = json.dumps(network_description[short_addr]['RO_values'])
-            m_RW_values_json = json.dumps(network_description[short_addr]['RW_values'])
-            m_pending_updates_json = json.dumps(network_description[short_addr]['pending_updates'])
+        for short_addr in sorted(network_description.keys()):
+            m_RO_values_json = json.dumps(network_description[short_addr]['RO_values'], sort_keys=True)
+            m_RW_values_json = json.dumps(network_description[short_addr]['RW_values'], sort_keys=True)
+            m_pending_updates_json = json.dumps(network_description[short_addr]['pending_updates'], sort_keys=True)
             csv_writer.writerow([short_addr, network_description[short_addr]['UID'], network_description[short_addr]['alias'], network_description[short_addr]['description'],
                                 network_description[short_addr]['sleeping'], network_description[short_addr]['last_seen_ts'], m_RO_values_json, m_RW_values_json, m_pending_updates_json])
         csvfile.close()
@@ -531,7 +528,6 @@ def decode_message(payload):
         return res
     return res
 
-
 # --------------------------------------------------------------------------
 #   main stuff
 # --------------------------------------------------------------------------
@@ -551,7 +547,7 @@ zmq_orders_topic = config.get("zmq", "zmq_orders_topic")
 
 # create logger
 log = logging.getLogger('MUTA_operator')
-log.setLevel(logging.DEBUG)
+log.setLevel(logging.INFO)
 # create file handler
 # fh = logging.FileHandler('/var/tmp/muta.log')
 fh = logging.handlers.RotatingFileHandler(
@@ -561,8 +557,7 @@ fh.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 # create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - [%(name)s]\
- %(levelname)s: %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s: %(message)s')
 fh.setFormatter(formatter)
 ch.setFormatter(formatter)
 # add the handlers to the logger
@@ -808,7 +803,7 @@ while True:
                                     buff = [m_short_address[0], m_short_address[1], payload_size, UPDATE, BOOL_TRUE]
                                     message = ''.join(chr(x) for x in buff)
                                     msg = 'S' + message
-                                    log.info("sending empty UPDATE as ack: S+ %s" % str(buff))
+                                    log.debug("sending empty UPDATE as ack: S+ %s" % str(buff))
                                     pending_messages.append(msg)
                                     # send a report through the basecamp ZMQ PUB/SUB facility
                                     messagedata = msgpack.packb([network_description[m_short_address_str]['alias'], merge_dicts(network_description[m_short_address_str]['RO_values'], network_description[m_short_address_str]['RW_values'])])
@@ -881,7 +876,7 @@ while True:
             # now check if we have pending messages to be sent on USB...
             if len(pending_messages) > 0:
                 try:
-                    log.info("sending NOW buffered message...")
+                    log.debug("sending NOW buffered message...")
                     dev.write(0x01, pending_messages[0])
                     pending_messages.pop(0)
                 except Exception as e:

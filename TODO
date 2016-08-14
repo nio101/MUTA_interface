@@ -10,3 +10,24 @@ Il devrait se mettre en restart? y réfléchir...
 
 utiliser une variable qui compte le nombre de retry depuis le lancement, pas un pourcentage ridicule...
 
+ajouter une commande permettant de demander un RESET par le réseau...
+exemple: installation d'un relais ou bien changement de conf réseau => RESET!
+
+tester les cas de décrochage / raccrochage
+exemple: on relance l'opérateur...
+Est-ce que les scouts connectés se reconnectent bien tout seul?
+
+Idem avec un relais...
+problème: apparemment, un scout connecté au relais arrivera à discuter directemnt avec la tête de pont! et faire un network register... tout en gardant son adresse sous le relais!?!
+Comment est-ce possible?
+message non chiffré? mauvais firmware?
+=> vérifier et tester
+
++ disable power_level_dynamic_adaptation for operators...
+Par définition, ils doivent pouvoir émettre à forte puissance sans tenir compte de leur connection à la tête de pont (pour les relais).
+
+revoir la procédure quand on relance l'opérater avec une chaine: relais+scout
+que se passe-t-il quand le relais essaye d'envoyer un message?
+Idem si c'est le scout qui le fait avant?
+
+L'idéal est que le relais soit réattaché immédiatement, et que le scout attende le prochain update pour se réattacher et donc retomber sur le relais...
