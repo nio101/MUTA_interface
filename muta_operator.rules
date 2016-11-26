@@ -1,0 +1,4 @@
+# under Ubuntu, copy this file to /etc/udev/rules.d
+# to be able to access the USB device without being root
+
+ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="f7c9", SYMLINK+="muta_operator", MODE="660", GROUP="plugdev"
