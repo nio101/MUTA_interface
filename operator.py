@@ -29,6 +29,7 @@ import portalocker
 import zmq
 import msgpack
 import random
+from influxdb import InfluxDBClient
 
 
 # --------------------------------------------------------------------------
@@ -430,6 +431,135 @@ def encode_value(key, value, writable):
     return res
 
 
+def format_for_influxdb(m_dict):
+    # remove UpF, not interesting for influxdb
+    m_dict.pop("UpF", None)
+    res = {}
+    # print m_dict
+    for key in m_dict:
+        key = unicode(key, 'utf8')
+        value = unicode(m_dict[key], 'utf8')
+        # print "key=", key
+        # print "value=", value
+        # using regexp to guess the unit & type of the value
+        while True:
+            # boolean / true
+            matchObj = re.match("^true$", value, re.M | re.I)
+            if matchObj:
+                value = 1
+                break
+            # boolean / false
+            matchObj = re.match("^false$", value, re.M | re.I)
+            if matchObj:
+                value = 0
+                break
+            # uint8 & uint16/no_unit
+            matchObj = re.match("^([0-9]*)$", value, re.M | re.I)
+            if matchObj:
+                value = int(value)
+                break
+            # fixed16/no_unit
+            matchObj = re.match("^([0-9]*)\.([0-9]*)$", value, re.M | re.I)
+            if matchObj:
+                value = float(value)
+                break
+            # uint8/%
+            matchObj = re.match("^([0-9]*)\%$", value, re.M | re.I)
+            if matchObj:
+                value = int(matchObj.group(1))
+                break
+            # fixed16/%
+            matchObj = re.match("^([0-9]*\.[0-9]*)\%$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                break
+            # uint8 & uint16/V
+            matchObj = re.match("^([0-9]*)V$", value, re.M | re.I)
+            if matchObj:
+                value = int(matchObj.group(1))
+                break
+            # fixed16/V
+            matchObj = re.match("^([0-9]*\.[0-9]*)V$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                break
+            # uint8 & uint16/°C
+            matchObj = re.match(u"^([0-9]*)\C$", value, re.M | re.I)
+            if matchObj:
+                value = int(matchObj.group(1))
+                break
+            # fixed16/°C
+            matchObj = re.match(u"^([0-9]*\.[0-9]*)\C$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                break
+
+            # note that all day/mn/sec durations are converted to float(days)
+            # before being written to influxdb
+            # so any duration is expressed as a float of days!
+
+            # uint8 & uint16/mn
+            matchObj = re.match("^([0-9]*)mn$", value, re.M | re.I)
+            if matchObj:
+                # print "found:", matchObj.group(1)
+                value = float(matchObj.group(1))/(24.0*60)
+                value = float("{0:.4f}".format(value))
+                break
+            # fixed16/mn
+            matchObj = re.match("^([0-9]*\.[0-9]*)mn$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))/(24.0*60)
+                value = float("{0:.4f}".format(value))
+                break
+            # uint8 & uint16/seconds
+            matchObj = re.match("^([0-9]*)s$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))/(24.0*3600)
+                value = float("{0:.4f}".format(value))
+                break
+            # fixed16/seconds
+            matchObj = re.match("^([0-9]*\.[0-9]*)s$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))/(24.0*3600)
+                value = float("{0:.4f}".format(value))
+                break
+            # uint8 & uint16/hours
+            matchObj = re.match("^([0-9]*)h$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))/24.0
+                value = float("{0:.4f}".format(value))
+                break
+            # fixed16/hours
+            matchObj = re.match("^([0-9]*\.[0-9]*)h$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))/24.0
+                value = float("{0:.4f}".format(value))
+                break
+            # uint8 & uint16/days
+            matchObj = re.match("^([0-9]*)d$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                value = float("{0:.4f}".format(value))
+                print "*** value:", value
+                break
+            # fixed16/days
+            matchObj = re.match("^([0-9]*\.[0-9]*)d$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                value = float("{0:.4f}".format(value))
+                break
+            # not recognized!
+            log.error("error: format_for_influxdb, type/unit not guessed for %s !" % value)
+            return None
+        # print "out: key,value = ", key, value
+        if key == "Pwr":
+            # convert power index to mW value
+            power_index = [20.0, 10.0, 5.0, 2.5, 1.2, 0.6, 0.3, 0.15]
+            value = power_index[value]
+        res[key] = value
+    return res
+
+
 def decode_values(values):
     """
     Decode TinyPack encoded variables/values and return as dicts
@@ -544,6 +674,8 @@ pending_updates_file = config.get("files", "pending_updates")
 network_description_headers = config.get("headers", "network_description")
 zmq_reports_topic = config.get("zmq", "zmq_reports_topic")
 zmq_orders_topic = config.get("zmq", "zmq_orders_topic")
+influxdb_host = config.get("influxdb", "influxdb_host")
+influxdb_port = config.get("influxdb", "influxdb_port")
 
 # create logger
 log = logging.getLogger('MUTA_operator')
@@ -569,12 +701,27 @@ context = zmq.Context()
 # muta reports channel
 socket_send = context.socket(zmq.PUB)
 socket_send.connect("tcp://127.0.0.1:5000")
-log.debug("ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on %s" % zmq_reports_topic)
+log.info("ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on %s" % zmq_reports_topic)
 # muta_orders channel
 socket_receive = context.socket(zmq.SUB)
 socket_receive.connect("tcp://127.0.0.1:5001")
 socket_receive.setsockopt(zmq.SUBSCRIBE, zmq_orders_topic)
-log.debug("ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to %s" % zmq_orders_topic)
+log.info("ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to %s" % zmq_orders_topic)
+
+# influxdb setup
+client = InfluxDBClient(influxdb_host, influxdb_port)
+client.switch_database('basecamp')
+log.info("influxdb will be contacted on "+str(influxdb_host)+":"+str(influxdb_port))
+influx_json_body = [
+    {
+        "measurement": "muta",
+        "tags": {
+            "unit": "",
+        },
+        "time": "",
+        "fields": {}
+    }
+]
 
 log.warning("MUTA operator interface is (re)starting!")
 
@@ -721,6 +868,7 @@ while True:
         # =========
 
         pending_messages = []
+        pending_db_updates = {}
         while connected is True:
 
             # while there are messages coming from USB, read them and process them!
@@ -752,19 +900,38 @@ while True:
                             # if m_short_address_str != "0000":
                             # network_description[m_short_address_str]['pending_updates']['Pwr'] = "1"
                             # - debug - à virer après tests
-                            # we should check pending_updates to eventually remove changes matching the current variables/values
+                            # TODO: we should check pending_updates to eventually remove changes matching the current variables/values
                             for item in res['res_RW']:
                                 if item in network_description[m_short_address_str]['pending_updates'].keys():
                                     if res['res_RW'][item].lower() == network_description[m_short_address_str]['pending_updates'][item].lower():
                                         # remove the item from the pending updates
+                                        print "removing from pending updates (un-necessary):", item, res['res_RW'][item]
                                         network_description[m_short_address_str]['pending_updates'].pop(item, None)
                             # we should merge the dicts and update the network description file
                             network_description[m_short_address_str]['last_seen_ts'] = str(m_ts)
                             network_description[m_short_address_str]['RO_values'] = merge_dicts(network_description[m_short_address_str]['RO_values'], res['res_RO'])
                             network_description[m_short_address_str]['RW_values'] = merge_dicts(network_description[m_short_address_str]['RW_values'], res['res_RW'])
                             update_network_description_file()
+                            # add the new values to the pending_db_updates dict
+                            if m_short_address_str in pending_db_updates:
+                                pending_db_updates[m_short_address_str] = merge_dicts(pending_db_updates[m_short_address_str], merge_dicts(res['res_RO'],res['res_RW']))
+                            else:
+                                pending_db_updates[m_short_address_str] = merge_dicts(res['res_RO'],res['res_RW'])
                             if (res['ack_required'] is True):
-                                # are there any pending updates ?
+                                # format the field updates for influxdb and write them to the influxdb database
+                                influx_json_body[0]['time'] = datetime.datetime.utcnow().isoformat()
+                                influx_json_body[0]['tags']['unit'] = network_description[m_short_address_str]['alias']
+                                influx_json_body[0]['fields'] = format_for_influxdb(pending_db_updates[m_short_address_str])
+                                log.info("writing to influxdb: "+str(influx_json_body))
+                                try:
+                                    client.write_points(influx_json_body)
+                                except Exception as e:                   
+                                    print e.__str__()
+                                    log.error(e)
+                                    log.error("Error reaching infludb on "+str(influxdb_host)+":"+str(influxdb_port))
+                                # exit(1)
+                                pending_db_updates.pop(m_short_address_str, None)
+                                # are there any updates left?
                                 if len(network_description[m_short_address_str]['pending_updates'].keys()) > 0:
                                     # send them
                                     nb_left = len(network_description[m_short_address_str]['pending_updates'].keys())
@@ -773,7 +940,7 @@ while True:
                                     for key in network_description[m_short_address_str]['pending_updates'].keys():
                                         partial_encode = encode_value(key, network_description[m_short_address_str]['pending_updates'][key], True)
                                         encoded_values = encoded_values + partial_encode
-                                        # print "key:", key, "encoded_value:", partial_encode
+                                        print "sending update for key:", key, "encoded_value:", partial_encode
                                         nb_values = nb_values + 1
                                         nb_left = nb_left - 1
                                         if (nb_values == 3):
@@ -858,15 +1025,13 @@ while True:
                     else:
                         log.warning('Info or Message_received command expected, message ignored:')
                         log.info(message[2:])
-                except Exception as e:
-                    """exc_type, exc_obj, exc_tb = sys.exc_info()
-                    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                    log.error(exc_type, fname, exc_tb.tb_lineno)"""
+
+                except Exception as e:                   
                     if ("timeout error" in e.__str__()) or ("timed out" in e.__str__()):
                         timeout_on_reading = True
-                        pass
+                        pass                                      
                     else:
-                        print e
+                        print e.__str__()
                         log.warning(e)
                         log.warning('USB link disconnected?')
                         connected = False

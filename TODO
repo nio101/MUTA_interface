@@ -1,5 +1,39 @@
 TODO
 
+BUG muta units : quand uptime >= 1j, pas d'unité affichée?
+unit_type: 0 (pas d'unité) ou bien 7 (days) ?
+vérifier côté units & côté code operator/script python
+=> fait planter l'export vers influxdb!
+
+BUG des capteurs de température I2C, ou bien de l'interprétation?
+Quand proche de 0, valeur de 255.X !?!
+0 == 0
+-0.1 == 255.9
+-1 == 255
+voir la spec!
+
+Prévoir des cycles plus longs pour les scouts quand ils se réveillent et n'arrivent pas à dialoguer avec l'operateur
+Ex. d'une coupure de courant d'1h => il ne faut pas que les scouts vident leur batteries à ré-essayer en permanence...
+=> faire un essai toutes les 10mn, par exemple!
+Parce qu'on a quand même un scan complet à 20mW à chaque fois...
+
+BUG operator:
+quand on lui demande une MAJ de UpF, il renvoie aussi la valeur de Pwr!?!
+
+verifier que les logs d'operator soient bien tournants, et le faire sinon
+
+ajouter une version de protocole MUTA/de soft pour s'assurer que seuls les clients à la même version que l'opérateur seront acceptés
+=> modifier UUID pour encoder la version
+et n'accepter que les units qui sont avec une version similaire à celle de l'opérateur!
+
+Encoder la puissance en dixièmes de mW
+=> plus de soucis de lecture, et courbes/monitoring faciles à faire...
+=> modifier MUTApack pour ajouter unit "mW" & encoder en fixed16/mW avec regexp correspondant
+
+ajouter un tableau de valeurs de bias par couples unit_id / variable
+=> permet de corriger / uniformiser les valeurs de température
+=> les mettres côte à côte et jouer sur les valeurs pour qu'ils remontent tous la même température...
+
 Quand/si le script python tombe/crashe, l'opérateur continue sa vie et discute avec les nodes?
 Apparemment...
 Mais pas d'ack aux messages d'UPDATE => au bout de X essais, reset des nodes? et comme pas de script python, plus possible de se reconnecter?

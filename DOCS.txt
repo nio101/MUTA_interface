@@ -3,12 +3,14 @@ Files used by this script:
 config.ini -> log file, USB vendor & product indicates
 authorized_units.csv -> list of units authorized for registering:
                         UID|alias|description
-                            UID = Unique Id == Model+Make+sub_UID
+                            UID = Unique Id == Model+protocol version+sub_UID
                             ex.: 01 02 FF 01 -> scout mk2 #FF01
                             Models:
                                     00: operator
                                     01: scout
                                     02: enforcer
+                            Protocol version: 01
+                            sub_UID: 0001
 network_description.csv -> read-only network description table, reflects the current state of the network/nodes/values.
                     short_addr|UID|alias|description|power|last_RSSI|last_seen_ts|readonly_values_list(label: 'value')|readwrite_values_list(label: 'value')
                     ex.: 0001|0102FF01|scout1|garden|1mW|70%|2012-12-15 01:21:05|{'Tp':'21.3°C', 'Vb':'2.5V','Lt':'78%','Pr':true,'Fq':'1mn', 'Cha':'12'}|{'Pwr':'0.15mW'}
@@ -87,7 +89,7 @@ like this:
         03 PING ->(test_payload) <-(test_payload)
         04 UPDATE ->(last_update, values) <-(last_update, values)
 
-    Values/Parameters encoding for UPDATE messages is done in a custom msgpack-like way, but largely simplified (let's call it MUTApack!)
+    Values/Parameters encoding for UPDATE messages is done in a custom msgpack-like way, but largely simplified (I like to call it MUTApack!)
     The idea is to keep it easy to encode/decode, while keeping the encoding size limited, since we are using small payload messages.
     Structure of parameter map encoding:
         list_of_items(max 18 bytes)
