@@ -1,4 +1,4 @@
 short_addr|UID|alias|description|sleeping|last_seen_ts|RO_values|RW_values|pending_updates
-0000|00030001|operator#1|unit#01, operator mk3/basecamp|False|2016-12-02 04:38:04|{"Chn": "0", "Nse": "42", "Upt": "5mn"}|{"Pwr": "0", "UpF": "5mn"}|{}
-0001|01020004|scout#4|unit#04, scout mk2/dormant|True|2016-12-02 04:39:54|{"FlM": "0.0%", "Lit": "0%", "Tmp": "18.06C", "Upt": "6mn", "VBa": "2.56V"}|{"Pwr": "6", "UpF": "1mn"}|{}
-0002|01020002|scout#2|unit#02, scout mk2/dormant|True|2016-12-02 04:39:51|{"FlM": "0.0%", "Lit": "0%", "Tmp": "1.62C", "Upt": "6mn", "VBa": "2.54V"}|{"Pwr": "0", "UpF": "1mn"}|{}
+0000|00030001|operator#1|unit#01, operator mk3/basecamp|False|2016-12-02 04:43:21|{"Chn": "0", "Nse": "42", "Upt": "10mn"}|{"Pwr": "0", "UpF": "5mn"}|{}
+0001|01020004|scout#4|unit#04, scout mk2/dormant|True|2016-12-02 04:46:49|{"FlM": "0.0%", "Lit": "0%", "Tmp": "18.0C", "Upt": "13mn", "VBa": "2.56V"}|{"Pwr": "6", "UpF": "1mn"}|{}
+0002|01020002|scout#2|unit#02, scout mk2/dormant|True|2016-12-02 04:47:26|{"FlM": "0.0%", "Lit": "0%", "Tmp": "1.68C", "Upt": "14mn", "VBa": "2.54V"}|{"Pwr": "0", "UpF": "1mn"}|{}
