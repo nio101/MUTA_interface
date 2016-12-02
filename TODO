@@ -1,5 +1,8 @@
 TODO
 
+Gérer proprement les signed/unsigned!
+En attendant, on considère les °C comme signed... :s
+
 BUG muta units : quand uptime >= 1j, pas d'unité affichée?
 unit_type: 0 (pas d'unité) ou bien 7 (days) ?
 vérifier côté units & côté code operator/script python
@@ -10,7 +13,7 @@ Quand proche de 0, valeur de 255.X !?!
 0 == 0
 -0.1 == 255.9
 -1 == 255
-voir la spec!
+si > 128: t = t - 256
 
 Prévoir des cycles plus longs pour les scouts quand ils se réveillent et n'arrivent pas à dialoguer avec l'operateur
 Ex. d'une coupure de courant d'1h => il ne faut pas que les scouts vident leur batteries à ré-essayer en permanence...

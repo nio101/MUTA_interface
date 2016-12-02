@@ -489,7 +489,7 @@ def format_for_influxdb(m_dict):
                 value = int(matchObj.group(1))
                 break
             # fixed16/°C
-            matchObj = re.match(u"^([0-9]*\.[0-9]*)\C$", value, re.M | re.I)
+            matchObj = re.match(u"^([-]?[0-9]*\.[0-9]*)\C$", value, re.M | re.I)
             if matchObj:
                 value = float(matchObj.group(1))
                 break
@@ -597,6 +597,12 @@ def decode_values(values):
                 value = False
                 index = index + 5
         # print "value:", value
+
+        # patch temporaire pour °c signed
+        if units_type == DEGREES_UNIT:
+            if value > 128:
+                value = value - 256
+
         # add the unit
         if (units_type == NO_UNIT):
             value = str(value)
@@ -615,10 +621,12 @@ def decode_values(values):
         elif (units_type == DAYS_UNIT):
             value = str(value) + 'd'
         # print "decoded value+unit:", value
+
         if writable:
             res_RW[label] = value
         else:
             res_RO[label] = value
+
     # print "res_RO:", res_RO
     # print "res_RW:", res_RW
     return [res_RO, res_RW]
