@@ -2,6 +2,7 @@ TODO
 
 Gérer proprement les signed/unsigned!
 En attendant, on considère les °C comme signed... :s
+=> ajouter un bit signed/unsigned pour faire le complément si signed lors du décodage
 
 BUG muta units : quand uptime >= 1j, pas d'unité affichée?
 unit_type: 0 (pas d'unité) ou bien 7 (days) ?
@@ -15,6 +16,23 @@ Quand proche de 0, valeur de 255.X !?!
 -1 == 255
 si > 128: t = t - 256
 
+ajouter une version de protocole MUTA/de soft pour s'assurer que seuls les clients à la même version que l'opérateur seront acceptés
+=> modifier UUID pour encoder la version
+et n'accepter que les units qui sont avec une version similaire à celle de l'opérateur!
+
+Encoder la puissance en dixièmes de mW
+=> plus de soucis de lecture, et courbes/monitoring faciles à faire...
+=> modifier MUTApack pour ajouter unit "mW" & encoder en fixed16/mW avec regexp correspondant
+
+UPDATE1 (MUTA v01): passer l'encoding/decoding type sur 2 bits, récupérer un bit pour signed/unsigned, et ajouter le bit qui ne sert pas (à 0) pour augmenter
+la liste des units et ajouter mW, puis:
+- encoder la température en signed
+- encode l'uptime directement en fixed point de jours
+- encoder la puissance en fixed point de mW
+- coder le modèle/make sur 1 octet + 1 octet pour la version de MUTA/Tinypack
+
+------------------------------
+
 Prévoir des cycles plus longs pour les scouts quand ils se réveillent et n'arrivent pas à dialoguer avec l'operateur
 Ex. d'une coupure de courant d'1h => il ne faut pas que les scouts vident leur batteries à ré-essayer en permanence...
 => faire un essai toutes les 10mn, par exemple!
@@ -24,14 +42,6 @@ BUG operator:
 quand on lui demande une MAJ de UpF, il renvoie aussi la valeur de Pwr!?!
 
 verifier que les logs d'operator soient bien tournants, et le faire sinon
-
-ajouter une version de protocole MUTA/de soft pour s'assurer que seuls les clients à la même version que l'opérateur seront acceptés
-=> modifier UUID pour encoder la version
-et n'accepter que les units qui sont avec une version similaire à celle de l'opérateur!
-
-Encoder la puissance en dixièmes de mW
-=> plus de soucis de lecture, et courbes/monitoring faciles à faire...
-=> modifier MUTApack pour ajouter unit "mW" & encoder en fixed16/mW avec regexp correspondant
 
 ajouter un tableau de valeurs de bias par couples unit_id / variable
 => permet de corriger / uniformiser les valeurs de température
@@ -62,7 +72,7 @@ Comment est-ce possible?
 message non chiffré? mauvais firmware?
 => vérifier et tester
 
-+ disable power_level_dynamic_adaptation for operators...
++ disable power_level_dynamic_adaptation for operators (pour les relais?)...
 Par définition, ils doivent pouvoir émettre à forte puissance sans tenir compte de leur connection à la tête de pont (pour les relais).
 
 revoir la procédure quand on relance l'opérater avec une chaine: relais+scout
