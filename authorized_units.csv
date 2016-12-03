@@ -1,6 +1,6 @@
 UID(hexa,lowercase)|alias|description|default_RW_variables
-00010000|proto#0|PAN coordinator mk1|{}
-00030001|operator#1|unit#01, operator mk3/basecamp|{"UpF": "5mn", "Pwr": "0"}
+01010000|proto#0|PAN coordinator mk1|{}
+01030001|operator#1|unit#01, operator mk3/basecamp|{"UpF": "5mn", "Pwr": "20.0mW"}
 01020002|scout#2|unit#02, scout mk2/dormant|{"UpF": "1mn"}
-00030003|relay#3|unit#03, operator mk3/relay|{"UpF": "5mn", "Pwr": "0"}
+01030003|relay#3|unit#03, operator mk3/relay|{"UpF": "5mn", "Pwr": "5.0mW"}
 01020004|scout#4|unit#04, scout mk2/dormant|{"UpF": "1mn"}
