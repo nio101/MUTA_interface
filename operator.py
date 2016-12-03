@@ -10,6 +10,8 @@ USB Interface between Basecamp and MUTA network's main operator
 Copyright (2015-2016) Nicolas Barthe,
 distributed as open source under the terms
 of the GNU General Public License (see COPYING.txt)
+
+compatible with: MUTA_v01
 """
 
 
@@ -129,6 +131,7 @@ MINUTES_UNIT = 4
 SECONDS_UNIT = 5
 HOURS_UNIT = 6
 DAYS_UNIT = 7
+MILLIWATTS_UNIT = 8
 
 BOOL_FALSE = 0xf0
 BOOL_TRUE = 0xff
@@ -414,15 +417,31 @@ def encode_value(key, value, writable):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
                 return None
             break
+        # fixed16/mW
+        matchObj = re.match(u"^([0-9]*)\.([0-9]*)mW$", value, re.M | re.I)
+        if matchObj:
+            # print "found:", matchObj.group(1), matchObj.group(2)
+            m_type = UFIXED16_TYPE
+            m_unit = MILLIWATTS_UNIT
+            m_value1 = int(matchObj.group(1))
+            if (m_value1 > 255):
+                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
+                return None
+            m_value2 = int(matchObj.group(2))
+            if (m_value2 > 255):
+                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+                return None
+            break
         # not recognized!
         log.error("error: type/unit not guessed for %s !" % value)
         return None
     # encode type, unit and value(s)
+    m_signed = 0 # no signed value encoded here so far (todo if needed)
     if writable is True:
         m_writable = 1
     else:
         m_writable = 0
-    res.append((m_type << 5) + (m_writable << 4) + m_unit)
+    res.append((m_type << 6) + (m_signed << 5) + (m_writable << 4) + m_unit)
     if m_type == UFIXED16_TYPE or m_type == UINT16_TYPE:
         res.append(m_value1)
         res.append(m_value2)
@@ -432,7 +451,7 @@ def encode_value(key, value, writable):
 
 
 def format_for_influxdb(m_dict):
-    # remove UpF, not interesting for influxdb
+    # remove UpF, not recorded into influxdb
     m_dict.pop("UpF", None)
     res = {}
     # print m_dict
@@ -493,69 +512,62 @@ def format_for_influxdb(m_dict):
             if matchObj:
                 value = float(matchObj.group(1))
                 break
-
-            # note that all day/mn/sec durations are converted to float(days)
-            # before being written to influxdb
-            # so any duration is expressed as a float of days!
+            # fixed16/mW
+            matchObj = re.match(u"^([0-9]*\.[0-9]*)mW$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
 
             # uint8 & uint16/mn
             matchObj = re.match("^([0-9]*)mn$", value, re.M | re.I)
             if matchObj:
-                # print "found:", matchObj.group(1)
-                value = float(matchObj.group(1))/(24.0*60)
-                value = float("{0:.4f}".format(value))
+                value = int(matchObj.group(1))
                 break
             # fixed16/mn
             matchObj = re.match("^([0-9]*\.[0-9]*)mn$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))/(24.0*60)
-                value = float("{0:.4f}".format(value))
+                value = float(matchObj.group(1))
                 break
             # uint8 & uint16/seconds
             matchObj = re.match("^([0-9]*)s$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))/(24.0*3600)
-                value = float("{0:.4f}".format(value))
+                value = int(matchObj.group(1))
                 break
             # fixed16/seconds
             matchObj = re.match("^([0-9]*\.[0-9]*)s$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))/(24.0*3600)
-                value = float("{0:.4f}".format(value))
+                value = float(matchObj.group(1))
                 break
             # uint8 & uint16/hours
             matchObj = re.match("^([0-9]*)h$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))/24.0
-                value = float("{0:.4f}".format(value))
+                value = int(matchObj.group(1))
                 break
             # fixed16/hours
-            matchObj = re.match("^([0-9]*\.[0-9]*)h$", value, re.M | re.I)
+            matchObj = re.match("^([0-9]*)\.([0-9]*)h$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))/24.0
-                value = float("{0:.4f}".format(value))
+                value = float(matchObj.group(1))
                 break
             # uint8 & uint16/days
             matchObj = re.match("^([0-9]*)d$", value, re.M | re.I)
             if matchObj:
-                value = float(matchObj.group(1))
-                value = float("{0:.4f}".format(value))
-                print "*** value:", value
+                value = int(matchObj.group(1))
                 break
             # fixed16/days
             matchObj = re.match("^([0-9]*\.[0-9]*)d$", value, re.M | re.I)
             if matchObj:
                 value = float(matchObj.group(1))
-                value = float("{0:.4f}".format(value))
                 break
+            # fixed16/mW
+            matchObj = re.match(u"^([0-9]*\.[0-9]*)mW$", value, re.M | re.I)
+            if matchObj:
+                value = float(matchObj.group(1))
+                break
+
             # not recognized!
             log.error("error: format_for_influxdb, type/unit not guessed for %s !" % value)
             return None
+
         # print "out: key,value = ", key, value
-        if key == "Pwr":
-            # convert power index to mW value
-            power_index = [20.0, 10.0, 5.0, 2.5, 1.2, 0.6, 0.3, 0.15]
-            value = power_index[value]
         res[key] = value
     return res
 

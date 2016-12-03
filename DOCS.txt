@@ -1,3 +1,8 @@
+MUTA stuff
+**********
+Compatible with: MUTA v01
+
+
 Files used by this script:
 ==========================
 config.ini -> log file, USB vendor & product indicates
@@ -97,16 +102,15 @@ like this:
         with each item:
             label (3-char-string), ex.: 'BVo' for battery voltage
             +type (1 byte), used to encode/decode and interpret item:
-                A(3bit)+B(1bit)+C(1bit)+D(3bit)
+                A(2bit+1bit)+B(1bit)+C(4bit)
                 A: the encoding/decoding type
                 B: 1 if a variable is writable, 0 if read-only
-                C: unused (let's put 0 here meanwhile)
-                D: unit type
+                C: unit value
             +value (1-2 bytes, depends on type)
 
             => each item has a size of 5-6 bytes. So we can send a maximum of 3 values per message (6x3 = 18 <= 19)
 
-            encoding/decoding type values used so far: (3bits)
+            encoding/decoding type values used so far: (2bits)
             ===========================================
                 0:  uint8/short 1-byte long integer, unsigned (0-255)
                     value: 1 byte
@@ -121,7 +125,17 @@ like this:
                     value: 1 byte, 0xF0 for False, 0xFF for True
                     ex.: 58 59 30 FF -> 'XY' = True
 
-            measuring unit values used so far: (3bits)
+            signed/unsigned flag (1bit)
+            ====================
+                0: unsigned
+                1: signed
+
+            writable/read_only (1bit)
+            ==================
+                0: read_only
+                1: writable
+
+            measuring unit values used so far: (4bits)
             ==================================
                 0:  no unit / used for booleans too
                 1:  °C (temperature in degrees)
@@ -131,11 +145,12 @@ like this:
                 5:  s (seconds)
                 6:  h (hours)
                 7:  d (days)
+                8:  mW
 
             Exemples for type encoding:
-                60 (011 0 0 000) -> boolean, no unit, read-only
-                70 (011 1 0 000) -> boolean, no unit, writable
-                42 (010 0 0 010) -> short float, V, read-only
+                60 (11 0 0 0000) -> boolean, no unit, read-only
+                70 (11 0 1 0000) -> boolean, no unit, writable
+                42 (10 1 0 0010) -> short float, signed, V, read-only
 
             Combinations of values/types taken into account/recognized using regexp:
             "15.35°C" -> fixed16/°C
