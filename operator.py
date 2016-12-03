@@ -131,7 +131,7 @@ MINUTES_UNIT = 4
 SECONDS_UNIT = 5
 HOURS_UNIT = 6
 DAYS_UNIT = 7
-MILLIWATTS_UNIT = 8
+MWATT_UNIT = 8
 
 BOOL_FALSE = 0xf0
 BOOL_TRUE = 0xff
@@ -422,7 +422,7 @@ def encode_value(key, value, writable):
         if matchObj:
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
-            m_unit = MILLIWATTS_UNIT
+            m_unit = MWATT_UNIT
             m_value1 = int(matchObj.group(1))
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
@@ -583,12 +583,13 @@ def decode_values(values):
     while (index < len(values)):
         label = ''.join(chr(x) for x in [values[index + 0], values[index + 1], values[index + 2]])
         # print "label:", label
-        variable_type = (values[index + 3] & 0b11100000) >> 5
+        variable_type = (values[index + 3] & 0b11000000) >> 6
+        signed = (values[index + 3] & 0b00100000) >> 5
         # print values[index + 3] & 0b11100000
         # print "variable_type:", variable_type
         writable = (values[index + 3] & 0b00010000) >> 4
         # print "writable:", writable
-        units_type = values[index + 3] & 0b00000111
+        units_type = values[index + 3] & 0b00001111
         # print "units_type:", units_type
         # compute the value
         if (variable_type == UINT8_TYPE):
@@ -610,8 +611,11 @@ def decode_values(values):
                 index = index + 5
         # print "value:", value
 
+        # TODO: gérer le flag signed pour tous les types
+        # pour l'instant: ignoré sauf pour °C
+
         # patch temporaire pour °c signed
-        if units_type == DEGREES_UNIT:
+        if ((units_type == DEGREES_UNIT) and (signed)):
             if value > 128:
                 value = value - 256
 
@@ -632,6 +636,8 @@ def decode_values(values):
             value = str(value) + 'h'
         elif (units_type == DAYS_UNIT):
             value = str(value) + 'd'
+        elif (units_type == MWATT_UNIT):
+            value = str(value) + 'mW'
         # print "decoded value+unit:", value
 
         if writable:
