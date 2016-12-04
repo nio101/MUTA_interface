@@ -12,7 +12,7 @@ We'll use python v2.7, so make sure it is installed on your machine.
   * `sudo apt-get install python-setuptools python-dev build-essential`
   * `sudo easy_install pip`
 2. once pip is available, we can install the various python modules required
-  * `sudo pip install pyUSB portalocker zmq msgpack-python`
+  * `sudo pip install pyUSB portalocker zmq msgpack-python influxdb`
   
 ## Configuration
 

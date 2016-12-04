@@ -1,1 +1,2 @@
 short_addr|UID|alias|description|sleeping|last_seen_ts|RO_values|RW_values|pending_updates
+0000|01010000|operator#0|unit#00: operator mk1|False|2016-12-04 11:31:52|{"Chn": "8", "Nse": "42", "Upt": "0.01d"}|{"Pwr": "1.25mW", "UpF": "1mn"}|{}

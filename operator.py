@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!python
 # -*- coding: utf-8 -*-
 
 
@@ -31,8 +31,10 @@ import portalocker
 import zmq
 import msgpack
 import random
-from influxdb import InfluxDBClient
+import math
 
+# imported later if influxdb flag in config.ini
+# from influxdb import InfluxDBClient
 
 # --------------------------------------------------------------------------
 
@@ -46,6 +48,20 @@ def byteify(input):
         return input.encode('utf-8')
     else:
         return input
+
+
+def check_writable_params(params):
+    """
+    check the format/value of some parameters to make sure they are allowed
+    """
+    if "Pwr" in params.keys():
+        if params["Pwr"] not in allowed_power_list:
+            log.error("Error: parameter 'Pwr':'"+str(params["Pwr"])+ \
+                "' is not allowed (bad value/format!). Allowed values are only: "+str(allowed_power_list))
+            log.info("Removing the bad parameter: 'Pwr':"+str(params["Pwr"]))
+            params.pop("Pwr", None)
+            return None
+    return True
 
 
 def load_UID_auth():
@@ -69,6 +85,7 @@ def load_UID_auth():
                     m_default_params = byteify(json.loads(m_default_params))
                     authorized_units[m_UID] = [m_alias, m_description, m_default_params]
                     # print '%08x' % int(m_UID, 16)
+                    check_writable_params(m_default_params)
             csvfile.close()
             authorized_units_ts = datetime.datetime.fromtimestamp(statbuf.st_mtime)
     except OSError:
@@ -79,10 +96,17 @@ def load_UID_auth():
 def check_UID_auth(UID):
     """
     check if a given UID is declared in the authorized_units.csv file
+    + check MUTA_version
     """
+    if UID[0:2] != muta_version:
+        log.error("operator UID's MUTA version ("+str(UID[0:2])+") is not equal to "+str(muta_version)+" !")
+        return None
     global authorized_units
     if UID in authorized_units.keys():
         return authorized_units[UID]
+    else:
+        log.error("operator UID is not in the authorized_units file!")
+        return None
 
 
 def update_network_description_file():
@@ -136,7 +160,7 @@ MWATT_UNIT = 8
 BOOL_FALSE = 0xf0
 BOOL_TRUE = 0xff
 
-power_list = ["20mW", "10mW", "5mW", "2.5mW", "1.2mW", "0.6mW", "0.3mW", "0.15mW"]
+allowed_power_list = ["20.0mW", "10.0mW", "5.0mW", "2.5mW", "1.25mW", "0.6mW", "0.3mW", "0.15mW"]
 
 
 def merge_dicts(x, y):
@@ -199,13 +223,15 @@ def encode_value(key, value, writable):
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = NO_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
             m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
         # uint8/%
@@ -222,15 +248,18 @@ def encode_value(key, value, writable):
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = PERCENT_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
             m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
+        """
         # uint8 & uint16/V
         matchObj = re.match("^([0-9]*)V$", value, re.M | re.I)
         if matchObj:
@@ -247,21 +276,25 @@ def encode_value(key, value, writable):
             else:
                 m_type = UINT8_TYPE
             break
+        """
         # fixed16/V
         matchObj = re.match("^([0-9]*)\.([0-9]*)V$", value, re.M | re.I)
         if matchObj:
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = VOLT_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
             m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
+        """
         # uint8 & uint16/°C
         matchObj = re.match(u"^([0-9]*)\C$", value, re.M | re.I)
         if matchObj:
@@ -278,19 +311,22 @@ def encode_value(key, value, writable):
             else:
                 m_type = UINT8_TYPE
             break
+        """
         # fixed16/°C
         matchObj = re.match(u"^([0-9]*)\.([0-9]*)\C$", value, re.M | re.I)
         if matchObj:
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = DEGREES_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
             m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
         # uint8 & uint16/mn
@@ -309,6 +345,7 @@ def encode_value(key, value, writable):
             else:
                 m_type = UINT8_TYPE
             break
+        """
         # fixed16/mn
         matchObj = re.match("^([0-9]*)\.([0-9]*)mn$", value, re.M | re.I)
         if matchObj:
@@ -402,34 +439,38 @@ def encode_value(key, value, writable):
             else:
                 m_type = UINT8_TYPE
             break
+        """
         # fixed16/days
-        matchObj = re.match("^([0-9]*)\.([0-9]*)d$", value, re.M | re.I)
+        matchObj = re.match("^([0-9]*\.[0-9]*)d$", value, re.M | re.I)
         if matchObj:
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = DAYS_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
             m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
         # fixed16/mW
-        matchObj = re.match(u"^([0-9]*)\.([0-9]*)mW$", value, re.M | re.I)
+        matchObj = re.match(u"^([0-9]*\.[0-9]*)mW$", value, re.M | re.I)
         if matchObj:
             # print "found:", matchObj.group(1), matchObj.group(2)
             m_type = UFIXED16_TYPE
             m_unit = MWATT_UNIT
-            m_value1 = int(matchObj.group(1))
+            (m_dec, m_int) = math.modf(float(matchObj.group(1)))
+            m_value1 = int(m_int)
+            m_value2 = int(m_dec*100)
             if (m_value1 > 255):
                 log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value1)
                 return None
-            m_value2 = int(matchObj.group(2))
-            if (m_value2 > 255):
-                log.error("uint8 part value needs more that 1 byte to be encoded: %i", m_value2)
+            if (m_value2 > 99):
+                log.error("1/100th part exceeds 99!: %i", m_value2)
                 return None
             break
         # not recognized!
@@ -445,8 +486,11 @@ def encode_value(key, value, writable):
     if m_type == UFIXED16_TYPE or m_type == UINT16_TYPE:
         res.append(m_value1)
         res.append(m_value2)
+        #print "type:", m_type, "unit:", m_unit, "value1:", m_value1, "value2:", m_value2
     else:
         res.append(m_value1)
+        #print "type:", m_type, "unit:", m_unit, "value1:", m_value1
+    #print "res:", res
     return res
 
 
@@ -691,6 +735,9 @@ def decode_message(payload):
 # read config file
 config = ConfigParser.ConfigParser()
 config.read("config.ini")
+muta_version = config.get("main", "MUTA_version")
+influxdb_enabled = int(config.get("main", "influxdb_enabled"), 8)
+linux_os = int(config.get("main", "linux_os"), 8)
 log_file = config.get("log", "file")
 vendor_id = int(config.get("usb", "vendor_id"), 16)
 product_id = int(config.get("usb", "product_id"), 16)
@@ -700,8 +747,10 @@ pending_updates_file = config.get("files", "pending_updates")
 network_description_headers = config.get("headers", "network_description")
 zmq_reports_topic = config.get("zmq", "zmq_reports_topic")
 zmq_orders_topic = config.get("zmq", "zmq_orders_topic")
-influxdb_host = config.get("influxdb", "influxdb_host")
-influxdb_port = config.get("influxdb", "influxdb_port")
+if influxdb_enabled:
+    from influxdb import InfluxDBClient
+    influxdb_host = config.get("influxdb", "influxdb_host")
+    influxdb_port = config.get("influxdb", "influxdb_port")
 
 # create logger
 log = logging.getLogger('MUTA_operator')
@@ -722,6 +771,11 @@ ch.setFormatter(formatter)
 log.addHandler(fh)
 log.addHandler(ch)
 
+log.info("-==============-")
+log.info(" MUTA interface")
+log.info("-==============-")
+log.info("MUTA_version: "+str(muta_version))
+
 # ZMQ setup
 context = zmq.Context()
 # muta reports channel
@@ -734,20 +788,21 @@ socket_receive.connect("tcp://127.0.0.1:5001")
 socket_receive.setsockopt(zmq.SUBSCRIBE, zmq_orders_topic)
 log.info("ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to %s" % zmq_orders_topic)
 
-# influxdb setup
-client = InfluxDBClient(influxdb_host, influxdb_port)
-client.switch_database('basecamp')
-log.info("influxdb will be contacted on "+str(influxdb_host)+":"+str(influxdb_port))
-influx_json_body = [
-    {
-        "measurement": "muta",
-        "tags": {
-            "unit": "",
-        },
-        "time": "",
-        "fields": {}
-    }
-]
+if influxdb_enabled:
+    # influxdb setup
+    client = InfluxDBClient(influxdb_host, influxdb_port)
+    client.switch_database('basecamp')
+    log.info("influxdb will be contacted on "+str(influxdb_host)+":"+str(influxdb_port))
+    influx_json_body = [
+        {
+            "measurement": "muta",
+            "tags": {
+                "unit": "",
+            },
+            "time": "",
+            "fields": {}
+        }
+    ]
 
 log.warning("MUTA operator interface is (re)starting!")
 
@@ -772,15 +827,16 @@ while True:
         random_key1 = random.getrandbits(8)
         log.info("random bytes for this session: 0x%02X%02X" % (random_key0, random_key1))
         connected = True
-        # for linux
-        if dev.is_kernel_driver_active(0):
-            try:
-                    dev.detach_kernel_driver(0)
-                    log.info("kernel driver detached")
-            except usb.core.USBError as e:
-                    sys.exit("Could not detach kernel driver: %s" % str(e))
-        else:
-            log.info("no kernel driver attached")
+        # for linux ONLY
+        if linux_os:
+            if dev.is_kernel_driver_active(0):
+                try:
+                        dev.detach_kernel_driver(0)
+                        log.info("kernel driver detached")
+                except usb.core.USBError as e:
+                        sys.exit("Could not detach kernel driver: %s" % str(e))
+            else:
+                log.info("no kernel driver attached")
         # set the active USB configuration. With no arguments, the first
         # configuration will be the active one
         dev.set_configuration()
@@ -836,7 +892,6 @@ while True:
                             alias_to_short_table[m_alias] = '0000'
                             answer = BOOL_TRUE
                         else:
-                            log.error("operator UID is not in the authorized_units file!")
                             answer = BOOL_FALSE
                             # will cause reset of the operator
                         log.info("answering to NETWORK_REGISTER")
@@ -903,11 +958,13 @@ while True:
                 try:
                     # receive a 64 byte long (or less) message
                     ret = dev.read(0x81, 64, timeout=30)
-                    # ts1 = datetime.datetime.now()
-                    # print "+" + str(ts1 - ts0),
-                    # ts0 = ts1
+                    """
+                    ts1 = datetime.datetime.now()
+                    print "+" + str(ts1 - ts0),
+                    ts0 = ts1
                     # bytes sent are string
-                    # print ret
+                    print ret
+                    """
                     message = ''.join(chr(x) for x in ret)
                     # print message
                     if chr(ret[0]) == 'M':
@@ -931,7 +988,7 @@ while True:
                                 if item in network_description[m_short_address_str]['pending_updates'].keys():
                                     if res['res_RW'][item].lower() == network_description[m_short_address_str]['pending_updates'][item].lower():
                                         # remove the item from the pending updates
-                                        print "removing from pending updates (un-necessary):", item, res['res_RW'][item]
+                                        # print "removing from pending updates (un-necessary):", item, res['res_RW'][item]
                                         network_description[m_short_address_str]['pending_updates'].pop(item, None)
                             # we should merge the dicts and update the network description file
                             network_description[m_short_address_str]['last_seen_ts'] = str(m_ts)
@@ -943,30 +1000,31 @@ while True:
                                 pending_db_updates[m_short_address_str] = merge_dicts(pending_db_updates[m_short_address_str], merge_dicts(res['res_RO'],res['res_RW']))
                             else:
                                 pending_db_updates[m_short_address_str] = merge_dicts(res['res_RO'],res['res_RW'])
-                            if (res['ack_required'] is True):
-                                # format the field updates for influxdb and write them to the influxdb database
-                                influx_json_body[0]['time'] = datetime.datetime.utcnow().isoformat()
-                                influx_json_body[0]['tags']['unit'] = network_description[m_short_address_str]['alias']
-                                influx_json_body[0]['fields'] = format_for_influxdb(pending_db_updates[m_short_address_str])
-                                log.info("writing to influxdb: "+str(influx_json_body))
-                                try:
-                                    client.write_points(influx_json_body)
-                                except Exception as e:                   
-                                    print e.__str__()
-                                    log.error(e)
-                                    log.error("Error reaching infludb on "+str(influxdb_host)+":"+str(influxdb_port))
-                                # exit(1)
+                            if (res['ack_required'] is True):                            
+                                if influxdb_enabled:
+                                    # format the field updates for influxdb and write them to the influxdb database
+                                    influx_json_body[0]['time'] = datetime.datetime.utcnow().isoformat()
+                                    influx_json_body[0]['tags']['unit'] = network_description[m_short_address_str]['alias']
+                                    influx_json_body[0]['fields'] = format_for_influxdb(pending_db_updates[m_short_address_str])
+                                    log.info("writing to influxdb: "+str(influx_json_body))
+                                    try:
+                                        client.write_points(influx_json_body)
+                                    except Exception as e:                   
+                                        print e.__str__()
+                                        log.error(e)
+                                        log.error("Error reaching infludb on "+str(influxdb_host)+":"+str(influxdb_port))
                                 pending_db_updates.pop(m_short_address_str, None)
                                 # are there any updates left?
                                 if len(network_description[m_short_address_str]['pending_updates'].keys()) > 0:
                                     # send them
                                     nb_left = len(network_description[m_short_address_str]['pending_updates'].keys())
+                                    log.info("detected pending updates for %s: %s" % (m_short_address_str, network_description[m_short_address_str]['pending_updates']))
                                     nb_values = 0
                                     encoded_values = []
                                     for key in network_description[m_short_address_str]['pending_updates'].keys():
                                         partial_encode = encode_value(key, network_description[m_short_address_str]['pending_updates'][key], True)
                                         encoded_values = encoded_values + partial_encode
-                                        print "sending update for key:", key, "encoded_value:", partial_encode
+                                        #print "sending update for key:", key, "encoded_value:", partial_encode
                                         nb_values = nb_values + 1
                                         nb_left = nb_left - 1
                                         if (nb_values == 3):
@@ -1026,7 +1084,6 @@ while True:
                                 answer = BOOL_TRUE
                                 log.info("answering to NETWORK_REGISTER: authorization OK")
                             else:
-                                log.error("UID %s is not in the authorized_units file!" % res['UID'])
                                 answer = BOOL_FALSE
                                 # may/should cause the reset of the unit
                             buff = [m_short_address[0], m_short_address[1], 4, NETWORK_REGISTER, answer, random_key0, random_key1]
