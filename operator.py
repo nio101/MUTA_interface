@@ -1104,7 +1104,7 @@ while True:
                             """
                     elif chr(ret[0]) == 'I':
                         # info message, text mode
-                        log.info("operator is saying: "+message[2:])
+                        log.info("operator is saying: \""+message[2:]+"\"")
                     else:
                         log.warning('Info or Message_received command expected, message ignored:')
                         log.info(message[2:])

@@ -34,7 +34,7 @@ la liste des units et ajouter mW, puis:
 valid:
 - OK pour interface
 - OK pour operator
-- scout: todo
+- scout: tester MAJ valeurs en Writable
 - relay: todo
 
 ------------------------------

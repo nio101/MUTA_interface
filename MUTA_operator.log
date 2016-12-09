@@ -6216,3 +6216,669 @@
 2016-12-06 08:47:54,252 - INFO: message received from 0000: {'res_RO': {'Upt': '0.03d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
 2016-12-06 08:48:08,364 - INFO: message received from 0001: {'res_RO': {'Lit': '33%', 'Tmp': '19.31C', 'VBa': '2.56V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
 2016-12-06 08:48:08,473 - INFO: message received from 0001: {'res_RO': {'Upt': '0.03d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:43:11,426 - INFO: -==============-
+2016-12-09 06:43:11,427 - INFO:  MUTA interface
+2016-12-09 06:43:11,427 - INFO: -==============-
+2016-12-09 06:43:11,427 - INFO: MUTA_version: 01
+2016-12-09 06:43:11,440 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 06:43:11,444 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 06:43:11,444 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 06:43:11,457 - WARNING: Device not found...
+2016-12-09 06:43:14,461 - WARNING: Device not found...
+2016-12-09 06:43:17,470 - WARNING: Device not found...
+2016-12-09 06:43:20,482 - WARNING: Device not found...
+2016-12-09 06:43:23,487 - INFO: Device found!
+2016-12-09 06:43:23,490 - INFO: random bytes for this session: 0x0F2B
+2016-12-09 06:43:23,493 - INFO: |RESET
+2016-12-09 06:43:23,494 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 06:43:23,496 - INFO: answering to NETWORK_REGISTER
+2016-12-09 06:43:23,513 - INFO: operator is saying: scanning channels for noise...
+2016-12-09 06:43:35,663 - INFO: operator is saying: best channel: 0 (noise == 42)
+2016-12-09 06:43:35,684 - INFO: operator is saying: creating network...
+2016-12-09 06:43:35,707 - INFO: operator is saying: PANID:1337 Ch:00
+2016-12-09 06:43:35,729 - INFO: operator is saying: operator's address: 0000
+2016-12-09 06:43:35,752 - INFO: operator is saying: status: ready!
+2016-12-09 06:43:35,779 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 06:43:35,796 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 06:43:35,802 - INFO: detected pending updates for 0000: {'UpF': '5mn'}
+2016-12-09 06:43:35,806 - INFO: sending back UPDATE: S+ [0, 0, 7, 4, 255, 85, 112, 70, 20, 5]
+2016-12-09 06:43:35,816 - INFO: operator is saying: accepting scans & connections
+2016-12-09 06:43:35,868 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn'}}
+2016-12-09 06:44:48,826 - INFO: -==============-
+2016-12-09 06:44:48,828 - INFO:  MUTA interface
+2016-12-09 06:44:48,828 - INFO: -==============-
+2016-12-09 06:44:48,828 - INFO: MUTA_version: 01
+2016-12-09 06:44:48,841 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 06:44:48,845 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 06:44:48,845 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 06:44:48,855 - INFO: Device found!
+2016-12-09 06:44:48,857 - INFO: random bytes for this session: 0x6435
+2016-12-09 06:44:50,884 - INFO: trying to reset the operator!
+2016-12-09 06:44:50,913 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: L’opération d’entrée/sortie a été abandonnée en raison de l’arrêt d’un thread ou à la demande d’une application.
+
+
+2016-12-09 06:44:50,917 - WARNING: USB link disconnected?
+2016-12-09 06:44:53,927 - INFO: Device found!
+2016-12-09 06:44:53,930 - INFO: random bytes for this session: 0xC010
+2016-12-09 06:44:53,934 - INFO: |RESET
+2016-12-09 06:44:53,936 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 06:44:53,938 - INFO: answering to NETWORK_REGISTER
+2016-12-09 06:44:53,957 - INFO: operator is saying: scanning channels for noise...
+2016-12-09 06:45:06,127 - INFO: operator is saying: best channel: 0 (noise == 42)
+2016-12-09 06:45:06,148 - INFO: operator is saying: creating network...
+2016-12-09 06:45:06,171 - INFO: operator is saying: PANID:1337 Ch:00
+2016-12-09 06:45:06,194 - INFO: operator is saying: operator's address: 0000
+2016-12-09 06:45:06,216 - INFO: operator is saying: status: ready!
+2016-12-09 06:45:06,237 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 06:45:06,259 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 06:45:06,266 - INFO: detected pending updates for 0000: {'UpF': '5mn'}
+2016-12-09 06:45:06,269 - INFO: sending back UPDATE: S+ [0, 0, 7, 4, 255, 85, 112, 70, 20, 5]
+2016-12-09 06:45:06,282 - INFO: operator is saying: accepting scans & connections
+2016-12-09 06:45:06,338 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn'}}
+2016-12-09 06:45:31,635 - INFO: -==============-
+2016-12-09 06:45:31,637 - INFO:  MUTA interface
+2016-12-09 06:45:31,638 - INFO: -==============-
+2016-12-09 06:45:31,638 - INFO: MUTA_version: 01
+2016-12-09 06:45:31,650 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 06:45:31,654 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 06:45:31,654 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 06:45:31,664 - INFO: Device found!
+2016-12-09 06:45:31,665 - INFO: random bytes for this session: 0xBF39
+2016-12-09 06:45:33,697 - INFO: trying to reset the operator!
+2016-12-09 06:45:33,703 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 06:45:33,709 - WARNING: USB link disconnected?
+2016-12-09 06:45:36,719 - INFO: Device found!
+2016-12-09 06:45:36,723 - INFO: random bytes for this session: 0xF374
+2016-12-09 06:45:36,726 - INFO: |RESET
+2016-12-09 06:45:36,729 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 06:45:36,732 - INFO: answering to NETWORK_REGISTER
+2016-12-09 06:45:36,750 - INFO: operator is saying: scanning channels for noise...
+2016-12-09 06:45:48,920 - INFO: operator is saying: creating network...
+2016-12-09 06:45:48,943 - INFO: operator is saying: PANID:1337 Ch:00
+2016-12-09 06:45:48,966 - INFO: operator is saying: operator's address: 0000
+2016-12-09 06:45:48,986 - INFO: operator is saying: status: ready!
+2016-12-09 06:45:49,009 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 06:45:49,030 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 06:45:49,036 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 06:45:49,042 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 06:45:49,052 - INFO: operator is saying: accepting scans & connections
+2016-12-09 06:45:49,104 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 06:48:02,665 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 06:48:02,668 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 06:48:02,982 - INFO: operator is saying: 0001:POWER_TEST: OK, 20mW, RSSI=69
+2016-12-09 06:48:03,290 - INFO: operator is saying: 0001:POWER_TEST: OK, 10mW, RSSI=69
+2016-12-09 06:48:03,588 - INFO: operator is saying: 0001:POWER_TEST: OK, 5mW, RSSI=66
+2016-12-09 06:48:03,868 - INFO: operator is saying: 0001:POWER_TEST: OK, 2.5mW, RSSI=63
+2016-12-09 06:48:04,164 - INFO: operator is saying: 0001:POWER_TEST: OK, 1.25mW, RSSI=61
+2016-12-09 06:48:04,459 - INFO: operator is saying: 0001:POWER_TEST: OK, 0.6mW, RSSI=57
+2016-12-09 06:48:04,756 - INFO: operator is saying: 0001:POWER_TEST: OK, 0.3mW, RSSI=54
+2016-12-09 06:48:05,052 - INFO: operator is saying: 0001:POWER_TEST: OK, 0.15mW, RSSI=51
+2016-12-09 06:48:05,464 - INFO: message received from 0001: {'res_RO': {'Lit': '40%', 'Tmp': '20.06C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:48:05,634 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 06:48:05,717 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:48:37,618 - INFO: message received from 0001: {'res_RO': {'Lit': '45%', 'Tmp': '19.87C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:48:37,749 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:49:35,164 - INFO: message received from 0001: {'res_RO': {'Lit': '41%', 'Tmp': '19.68C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:49:35,289 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:54:23,384 - INFO: -==============-
+2016-12-09 06:54:23,388 - INFO:  MUTA interface
+2016-12-09 06:54:23,390 - INFO: -==============-
+2016-12-09 06:54:23,391 - INFO: MUTA_version: 01
+2016-12-09 06:54:23,404 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 06:54:23,408 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 06:54:23,410 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 06:54:23,421 - INFO: Device found!
+2016-12-09 06:54:23,424 - INFO: random bytes for this session: 0xAB23
+2016-12-09 06:54:23,427 - INFO: message received from 0100: {'res_RO': {'Lit': '44%', 'Tmp': '19.68C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:54:23,428 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 06:54:23,428 - WARNING: sending RESET command to operator
+2016-12-09 06:54:23,433 - INFO: message received from 0100: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:54:23,434 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 06:54:23,434 - WARNING: sending RESET command to operator
+2016-12-09 06:54:23,494 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 06:54:23,530 - WARNING: USB link disconnected?
+2016-12-09 06:54:26,539 - INFO: Device found!
+2016-12-09 06:54:26,546 - INFO: random bytes for this session: 0x4CC0
+2016-12-09 06:54:26,552 - INFO: |RESET
+2016-12-09 06:54:26,556 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 06:54:26,561 - INFO: answering to NETWORK_REGISTER
+2016-12-09 06:54:26,578 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 06:54:38,729 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 06:54:38,746 - INFO: operator is saying: "creating network..."
+2016-12-09 06:54:38,769 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 06:54:38,792 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 06:54:38,813 - INFO: operator is saying: "status: ready!"
+2016-12-09 06:54:38,835 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 06:54:38,858 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 06:54:38,858 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 06:54:38,861 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 06:54:38,880 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 06:54:38,934 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 06:55:42,667 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 06:55:42,671 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 06:55:42,979 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 06:55:43,275 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=68"
+2016-12-09 06:55:43,572 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=65"
+2016-12-09 06:55:43,868 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=62"
+2016-12-09 06:55:44,165 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=60"
+2016-12-09 06:55:44,457 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=56"
+2016-12-09 06:55:44,753 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=53"
+2016-12-09 06:55:45,072 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=51"
+2016-12-09 06:55:45,477 - INFO: message received from 0001: {'res_RO': {'Lit': '45%', 'Tmp': '19.56C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:55:45,618 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 06:55:45,744 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:56:17,618 - INFO: message received from 0001: {'res_RO': {'Lit': '44%', 'Tmp': '19.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:56:17,750 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 06:56:21,687 - INFO: -==============-
+2016-12-09 06:56:21,687 - INFO:  MUTA interface
+2016-12-09 06:56:21,687 - INFO: -==============-
+2016-12-09 06:56:21,688 - INFO: MUTA_version: 01
+2016-12-09 06:56:21,701 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 06:56:21,706 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 06:56:21,707 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 06:56:21,717 - INFO: Device found!
+2016-12-09 06:56:21,720 - INFO: random bytes for this session: 0xD5D2
+2016-12-09 06:56:23,743 - INFO: trying to reset the operator!
+2016-12-09 06:56:23,750 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 06:56:23,762 - WARNING: USB link disconnected?
+2016-12-09 06:56:26,773 - INFO: Device found!
+2016-12-09 06:56:26,779 - INFO: random bytes for this session: 0x23B8
+2016-12-09 06:56:26,783 - INFO: |RESET
+2016-12-09 06:56:26,786 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 06:56:26,790 - INFO: answering to NETWORK_REGISTER
+2016-12-09 06:56:26,811 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 06:56:39,009 - INFO: operator is saying: "creating network... se == 42)"
+2016-12-09 06:56:39,012 - INFO: operator is saying: "creating network..."
+2016-12-09 06:56:39,033 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 06:56:39,055 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 06:56:39,078 - INFO: operator is saying: "status: ready!"
+2016-12-09 06:56:39,099 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 06:56:39,121 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 06:56:39,124 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 06:56:39,125 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 06:56:39,144 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 06:56:39,197 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 06:58:35,164 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 06:58:35,168 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 06:58:35,479 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=66"
+2016-12-09 06:58:35,776 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=65"
+2016-12-09 06:58:36,068 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=63"
+2016-12-09 06:58:36,364 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=60"
+2016-12-09 06:58:36,658 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=58"
+2016-12-09 06:58:36,956 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=54"
+2016-12-09 06:58:37,259 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=51"
+2016-12-09 06:58:37,555 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=48"
+2016-12-09 06:58:37,960 - INFO: message received from 0001: {'res_RO': {'Lit': '44%', 'Tmp': '19.5C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:58:40,436 - INFO: message received from 0001: {'res_RO': {'Lit': '44%', 'Tmp': '19.5C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 06:58:40,619 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 06:58:40,690 - INFO: message received from 0001: {'res_RO': {'FlM': '7.14%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:00:04,523 - INFO: -==============-
+2016-12-09 07:00:04,523 - INFO:  MUTA interface
+2016-12-09 07:00:04,525 - INFO: -==============-
+2016-12-09 07:00:04,525 - INFO: MUTA_version: 01
+2016-12-09 07:00:04,536 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 07:00:04,540 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 07:00:04,542 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 07:00:04,552 - INFO: Device found!
+2016-12-09 07:00:04,552 - INFO: random bytes for this session: 0x102B
+2016-12-09 07:00:04,555 - INFO: message received from 0100: {'res_RO': {'Lit': '41%', 'Tmp': '19.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:00:04,555 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:00:04,556 - WARNING: sending RESET command to operator
+2016-12-09 07:00:04,559 - INFO: message received from 0100: {'res_RO': {'Upt': '0.0d', 'FlM': '6.25%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:00:04,561 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:00:04,561 - WARNING: sending RESET command to operator
+2016-12-09 07:00:04,624 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 07:00:04,628 - WARNING: USB link disconnected?
+2016-12-09 07:00:07,638 - INFO: Device found!
+2016-12-09 07:00:07,641 - INFO: random bytes for this session: 0x3490
+2016-12-09 07:00:07,644 - INFO: |RESET
+2016-12-09 07:00:07,647 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:00:07,650 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:00:07,667 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:00:19,822 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:00:19,835 - INFO: operator is saying: "creating network..."
+2016-12-09 07:00:19,858 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:00:19,881 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:00:19,903 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:00:19,924 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:00:19,947 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:00:19,948 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:00:19,950 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:00:19,969 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:00:20,028 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:01:47,339 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:01:47,342 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:01:47,680 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=67"
+2016-12-09 07:01:47,977 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=66"
+2016-12-09 07:01:48,259 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=63"
+2016-12-09 07:01:48,556 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=60"
+2016-12-09 07:01:48,838 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=57"
+2016-12-09 07:01:49,134 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=54"
+2016-12-09 07:01:49,427 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=51"
+2016-12-09 07:01:49,723 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=48"
+2016-12-09 07:01:50,137 - INFO: message received from 0001: {'res_RO': {'Lit': '17%', 'Tmp': '19.5C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:01:50,305 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:01:50,388 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:02:22,230 - INFO: message received from 0001: {'res_RO': {'Lit': '40%', 'Tmp': '19.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:02:22,362 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:03:34,726 - INFO: -==============-
+2016-12-09 07:03:34,727 - INFO:  MUTA interface
+2016-12-09 07:03:34,727 - INFO: -==============-
+2016-12-09 07:03:34,727 - INFO: MUTA_version: 01
+2016-12-09 07:03:34,740 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 07:03:34,744 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 07:03:34,744 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 07:03:34,755 - INFO: Device found!
+2016-12-09 07:03:34,756 - INFO: random bytes for this session: 0xA63A
+2016-12-09 07:03:34,759 - INFO: message received from 0100: {'res_RO': {'Lit': '39%', 'Tmp': '19.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:03:34,759 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:03:34,759 - WARNING: sending RESET command to operator
+2016-12-09 07:03:34,763 - INFO: message received from 0100: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:03:34,763 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:03:34,763 - WARNING: sending RESET command to operator
+2016-12-09 07:03:34,826 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 07:03:34,832 - WARNING: USB link disconnected?
+2016-12-09 07:03:37,841 - INFO: Device found!
+2016-12-09 07:03:37,845 - INFO: random bytes for this session: 0xC278
+2016-12-09 07:03:37,848 - INFO: |RESET
+2016-12-09 07:03:37,851 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:03:37,854 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:03:37,871 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:03:50,019 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:03:50,042 - INFO: operator is saying: "creating network..."
+2016-12-09 07:03:50,065 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:03:50,086 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:03:50,108 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:03:50,131 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:03:50,153 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:03:50,154 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:03:50,155 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:03:50,176 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:03:50,227 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:04:17,088 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:04:17,092 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:04:17,397 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=66"
+2016-12-09 07:04:17,691 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=66"
+2016-12-09 07:04:17,987 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=64"
+2016-12-09 07:04:18,282 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=62"
+2016-12-09 07:04:18,578 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=60"
+2016-12-09 07:04:18,875 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=55"
+2016-12-09 07:04:19,171 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=52"
+2016-12-09 07:04:19,467 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=48"
+2016-12-09 07:04:19,881 - INFO: message received from 0001: {'res_RO': {'Lit': '37%', 'Tmp': '19.5C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:04:20,056 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:04:20,132 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:04:51,979 - INFO: message received from 0001: {'res_RO': {'Lit': '36%', 'Tmp': '19.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:04:52,102 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:05:49,431 - INFO: message received from 0001: {'res_RO': {'Lit': '33%', 'Tmp': '19.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:05:49,555 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:06:30,138 - INFO: -==============-
+2016-12-09 07:06:30,138 - INFO:  MUTA interface
+2016-12-09 07:06:30,141 - INFO: -==============-
+2016-12-09 07:06:30,141 - INFO: MUTA_version: 01
+2016-12-09 07:06:30,154 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 07:06:30,157 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 07:06:30,157 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 07:06:30,167 - INFO: Device found!
+2016-12-09 07:06:30,170 - INFO: random bytes for this session: 0x090F
+2016-12-09 07:06:32,194 - INFO: trying to reset the operator!
+2016-12-09 07:06:32,200 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: Un périphérique attaché au système ne fonctionne pas correctement.
+
+
+2016-12-09 07:06:32,203 - WARNING: USB link disconnected?
+2016-12-09 07:06:35,213 - INFO: Device found!
+2016-12-09 07:06:35,217 - INFO: random bytes for this session: 0x5DAA
+2016-12-09 07:06:35,220 - INFO: |RESET
+2016-12-09 07:06:35,223 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:06:35,224 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:06:35,243 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:06:47,390 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:06:47,411 - INFO: operator is saying: "creating network..."
+2016-12-09 07:06:47,434 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:06:47,466 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:06:47,486 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:06:47,509 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:06:47,530 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:06:47,533 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:06:47,536 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:06:47,552 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:06:47,729 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:07:12,181 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:07:12,184 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:07:12,494 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=68"
+2016-12-09 07:07:13,380 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=61"
+2016-12-09 07:07:13,676 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=58"
+2016-12-09 07:07:13,970 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=55"
+2016-12-09 07:07:14,290 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=54"
+2016-12-09 07:07:14,588 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=49"
+2016-12-09 07:07:14,993 - INFO: message received from 0001: {'res_RO': {'Lit': '37%', 'Tmp': '19.56C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:07:15,134 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:07:15,243 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:07:47,051 - INFO: message received from 0001: {'res_RO': {'Lit': '37%', 'Tmp': '19.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:07:47,184 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:08:44,519 - INFO: message received from 0001: {'res_RO': {'Lit': '39%', 'Tmp': '19.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:08:44,680 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:09:42,009 - INFO: message received from 0001: {'res_RO': {'Lit': '39%', 'Tmp': '19.62C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:09:42,134 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:10:53,706 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:10:53,709 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:10:54,009 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:10:54,305 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:10:54,598 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=66"
+2016-12-09 07:10:54,894 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=63"
+2016-12-09 07:10:55,190 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=60"
+2016-12-09 07:10:55,486 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=57"
+2016-12-09 07:10:55,805 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=54"
+2016-12-09 07:10:56,078 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=53"
+2016-12-09 07:10:56,493 - INFO: message received from 0001: {'res_RO': {'Lit': '40%', 'Tmp': '19.68C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:10:56,648 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:10:56,776 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:10:56,779 - INFO: detected pending updates for 0001: {'UpF': '3mn'}
+2016-12-09 07:10:56,780 - INFO: sending back UPDATE: S+ [1, 0, 7, 4, 255, 85, 112, 70, 20, 3]
+2016-12-09 07:10:57,171 - INFO: message received from 0001: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '3mn'}}
+2016-12-09 07:12:03,973 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:12:27,217 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:12:27,221 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:12:27,556 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:12:27,851 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:12:28,134 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=65"
+2016-12-09 07:12:28,447 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=63"
+2016-12-09 07:12:28,713 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=60"
+2016-12-09 07:12:29,009 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=57"
+2016-12-09 07:12:29,305 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=54"
+2016-12-09 07:12:29,599 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=50"
+2016-12-09 07:12:30,026 - INFO: message received from 0001: {'res_RO': {'Lit': '24%', 'Tmp': '19.68C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:12:30,170 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:12:30,273 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:12:30,278 - INFO: detected pending updates for 0001: {'UpF': '2mn', 'Pwr': '5.0mW'}
+2016-12-09 07:12:30,279 - INFO: sending back UPDATE: S+ [1, 0, 13, 4, 255, 85, 112, 70, 20, 2, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:12:30,717 - INFO: message received from 0001: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '2mn', 'Pwr': '2'}}
+2016-12-09 07:12:30,720 - INFO: detected pending updates for 0001: {'Pwr': '5.0mW'}
+2016-12-09 07:12:30,721 - INFO: sending back UPDATE: S+ [1, 0, 8, 4, 255, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:13:50,809 - WARNING: [Errno None] libusb0-dll:err [submit_async] submitting request failed, win error: Le fichier spécifié est introuvable.
+
+2016-12-09 07:13:50,811 - WARNING: USB link disconnected?
+2016-12-09 07:13:53,821 - INFO: Device found!
+2016-12-09 07:13:53,825 - INFO: random bytes for this session: 0x97A0
+2016-12-09 07:13:53,828 - INFO: |RESET
+2016-12-09 07:13:53,832 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:13:53,835 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:13:53,854 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:14:05,997 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:14:06,019 - INFO: operator is saying: "creating network..."
+2016-12-09 07:14:06,042 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:14:06,065 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:14:06,085 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:14:06,108 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:14:06,130 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:14:06,134 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:14:06,135 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:14:06,151 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:14:06,213 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:14:41,244 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:14:41,249 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:14:41,571 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:14:41,854 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:14:42,144 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 07:14:42,463 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=66"
+2016-12-09 07:14:42,759 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=62"
+2016-12-09 07:14:43,042 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=60"
+2016-12-09 07:14:43,328 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=55"
+2016-12-09 07:14:43,632 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=54"
+2016-12-09 07:14:44,038 - INFO: message received from 0001: {'res_RO': {'Lit': '24%', 'Tmp': '19.81C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:14:44,213 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:14:44,289 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:14:44,292 - INFO: detected pending updates for 0001: {'Pwr': '5.0mW'}
+2016-12-09 07:14:44,295 - INFO: sending back UPDATE: S+ [1, 0, 8, 4, 255, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:14:44,697 - INFO: message received from 0001: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'Pwr': '2'}}
+2016-12-09 07:14:44,700 - INFO: detected pending updates for 0001: {'Pwr': '5.0mW'}
+2016-12-09 07:14:44,701 - INFO: sending back UPDATE: S+ [1, 0, 8, 4, 255, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:19:09,540 - INFO: -==============-
+2016-12-09 07:19:09,542 - INFO:  MUTA interface
+2016-12-09 07:19:09,542 - INFO: -==============-
+2016-12-09 07:19:09,542 - INFO: MUTA_version: 01
+2016-12-09 07:19:09,555 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 07:19:09,559 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 07:19:09,559 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 07:19:09,569 - INFO: Device found!
+2016-12-09 07:19:09,571 - INFO: random bytes for this session: 0xFCE0
+2016-12-09 07:19:09,573 - INFO: message received from 0100: {'res_RO': {'Lit': '24%', 'Tmp': '19.81C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:19:09,575 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:19:09,575 - WARNING: sending RESET command to operator
+2016-12-09 07:19:09,578 - INFO: message received from 0100: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:19:09,578 - ERROR: Error, expected a NETWORK_REGISTER from operator
+2016-12-09 07:19:09,578 - WARNING: sending RESET command to operator
+2016-12-09 07:19:09,664 - WARNING: [Errno None] libusb0-dll:err [_usb_reap_async] reaping request failed, win error: L’opération d’entrée/sortie a été abandonnée en raison de l’arrêt d’un thread ou à la demande d’une application.
+
+
+2016-12-09 07:19:09,665 - WARNING: USB link disconnected?
+2016-12-09 07:19:12,676 - INFO: Device found!
+2016-12-09 07:19:12,680 - INFO: random bytes for this session: 0xDD8C
+2016-12-09 07:19:12,684 - INFO: |RESET
+2016-12-09 07:19:12,686 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:19:12,688 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:19:12,707 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:19:24,693 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:19:24,714 - INFO: operator is saying: "creating network..."
+2016-12-09 07:19:24,737 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:19:24,759 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:19:24,782 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:19:24,803 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:19:24,825 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:19:24,828 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:19:24,831 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:19:24,848 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:19:24,901 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:20:21,634 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:20:21,638 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:20:21,947 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:20:22,243 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:20:22,538 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=68"
+2016-12-09 07:20:22,838 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=64"
+2016-12-09 07:20:23,131 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=62"
+2016-12-09 07:20:23,427 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=58"
+2016-12-09 07:20:23,721 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=55"
+2016-12-09 07:20:24,017 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=52"
+2016-12-09 07:20:24,461 - INFO: message received from 0001: {'res_RO': {'Lit': '2%', 'Tmp': '20.31C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:20:24,588 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:20:24,697 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:20:24,700 - INFO: detected pending updates for 0001: {'Pwr': '5.0mW'}
+2016-12-09 07:20:24,701 - INFO: sending back UPDATE: S+ [1, 0, 8, 4, 255, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:20:25,119 - INFO: message received from 0001: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'Pwr': '5.0mW'}}
+2016-12-09 07:20:56,602 - INFO: message received from 0001: {'res_RO': {'Lit': '2%', 'Tmp': '20.25C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:20:56,727 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:21:54,104 - INFO: message received from 0001: {'res_RO': {'Lit': '25%', 'Tmp': '20.12C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:21:54,236 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:22:51,618 - INFO: message received from 0001: {'res_RO': {'Lit': '28%', 'Tmp': '20.06C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:22:51,750 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:23:49,138 - INFO: message received from 0001: {'res_RO': {'Lit': '25%', 'Tmp': '20.12C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:23:49,290 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:24:41,244 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:24:46,654 - INFO: message received from 0001: {'res_RO': {'Lit': '25%', 'Tmp': '20.12C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:24:46,788 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:25:44,165 - INFO: message received from 0001: {'res_RO': {'Lit': '28%', 'Tmp': '20.12C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:25:44,296 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:26:41,664 - INFO: message received from 0001: {'res_RO': {'Lit': '27%', 'Tmp': '20.12C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:26:41,795 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:27:39,148 - INFO: message received from 0001: {'res_RO': {'Lit': '27%', 'Tmp': '20.12C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:27:39,280 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:28:36,665 - INFO: message received from 0001: {'res_RO': {'Lit': '27%', 'Tmp': '20.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:28:36,792 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:29:34,121 - INFO: message received from 0001: {'res_RO': {'Lit': '25%', 'Tmp': '20.18C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:29:34,255 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:29:57,628 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:30:31,634 - INFO: message received from 0001: {'res_RO': {'Lit': '27%', 'Tmp': '20.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:30:31,759 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:32:07,927 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:32:07,930 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:32:08,250 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:32:08,545 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:32:08,852 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 07:32:09,137 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=69"
+2016-12-09 07:32:09,433 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=69"
+2016-12-09 07:32:09,729 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=69"
+2016-12-09 07:32:10,026 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=69"
+2016-12-09 07:32:10,321 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=69"
+2016-12-09 07:32:10,733 - INFO: message received from 0001: {'res_RO': {'Lit': '14%', 'Tmp': '20.56C', 'VBa': '3.1V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:32:10,917 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:32:10,986 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:32:10,990 - INFO: detected pending updates for 0001: {'Pwr': '5.0mW'}
+2016-12-09 07:32:10,992 - INFO: sending back UPDATE: S+ [1, 0, 8, 4, 255, 80, 119, 114, 152, 5, 0]
+2016-12-09 07:32:11,400 - INFO: message received from 0001: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'Pwr': '5.0mW'}}
+2016-12-09 07:33:01,884 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:33:01,888 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:33:02,226 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:33:02,492 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:33:02,790 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 07:33:03,088 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=65"
+2016-12-09 07:33:03,380 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=61"
+2016-12-09 07:33:03,698 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=60"
+2016-12-09 07:33:03,970 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=56"
+2016-12-09 07:33:04,290 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=53"
+2016-12-09 07:33:04,681 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.93C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:33:04,868 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:33:04,934 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:33:36,819 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.75C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:33:36,953 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:34:34,401 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:34:34,526 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:35:13,976 - INFO: message received from 0000: {'res_RO': {'Upt': '0.01d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:35:31,900 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:35:32,028 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:36:29,417 - INFO: message received from 0001: {'res_RO': {'Lit': '32%', 'Tmp': '20.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:36:29,549 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:37:26,947 - INFO: message received from 0001: {'res_RO': {'Lit': '31%', 'Tmp': '20.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:37:27,081 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:38:24,479 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.56C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:38:24,604 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:39:21,993 - INFO: message received from 0001: {'res_RO': {'Lit': '29%', 'Tmp': '20.62C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:39:22,118 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:40:19,526 - INFO: message received from 0001: {'res_RO': {'Lit': '28%', 'Tmp': '20.62C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:40:19,634 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:40:30,341 - INFO: message received from 0000: {'res_RO': {'Upt': '0.01d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:41:17,009 - INFO: message received from 0001: {'res_RO': {'Lit': '41%', 'Tmp': '20.75C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:41:17,135 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:42:14,510 - INFO: message received from 0001: {'res_RO': {'Lit': '45%', 'Tmp': '20.93C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:42:14,641 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:43:31,681 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:43:31,686 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:43:32,025 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:43:32,305 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:43:32,601 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 07:43:32,884 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=69"
+2016-12-09 07:43:33,180 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=69"
+2016-12-09 07:43:33,476 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=69"
+2016-12-09 07:44:19,838 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:44:19,842 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:44:20,151 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:44:20,447 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:44:20,757 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=68"
+2016-12-09 07:44:21,039 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=66"
+2016-12-09 07:44:21,351 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=62"
+2016-12-09 07:44:21,650 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=60"
+2016-12-09 07:44:21,930 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=56"
+2016-12-09 07:44:22,243 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=54"
+2016-12-09 07:44:22,635 - INFO: message received from 0001: {'res_RO': {'Lit': '43%', 'Tmp': '21.68C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:44:22,805 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:44:22,888 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:45:21,040 - INFO: message received from 0001: {'res_RO': {'Lit': '39%', 'Tmp': '21.37C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:45:21,164 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:45:46,789 - INFO: message received from 0000: {'res_RO': {'Upt': '0.01d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:46:19,288 - INFO: message received from 0001: {'res_RO': {'Lit': '44%', 'Tmp': '21.31C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:46:19,420 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:46:19,977 - INFO: message received from 0001: {'res_RO': {'Lit': '43%', 'Tmp': '21.31C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:46:20,111 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:47:18,226 - INFO: message received from 0001: {'res_RO': {'Lit': '41%', 'Tmp': '21.25C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:47:18,359 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:48:16,480 - INFO: message received from 0001: {'res_RO': {'Lit': '43%', 'Tmp': '21.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:48:16,604 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:49:14,717 - INFO: message received from 0001: {'res_RO': {'Lit': '40%', 'Tmp': '21.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:49:14,848 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:50:12,963 - INFO: message received from 0001: {'res_RO': {'Lit': '40%', 'Tmp': '21.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:50:13,096 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:51:03,292 - INFO: message received from 0000: {'res_RO': {'Upt': '0.02d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:51:11,196 - INFO: message received from 0001: {'res_RO': {'Lit': '41%', 'Tmp': '21.18C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:51:11,321 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:54:27,119 - WARNING: [Errno None] libusb0-dll:err [submit_async] submitting request failed, win error: Le fichier spécifié est introuvable.
+
+2016-12-09 07:54:27,121 - WARNING: USB link disconnected?
+2016-12-09 07:54:30,127 - WARNING: Device not found...
+2016-12-09 07:54:33,137 - WARNING: Device not found...
+2016-12-09 07:55:47,121 - INFO: -==============-
+2016-12-09 07:55:47,121 - INFO:  MUTA interface
+2016-12-09 07:55:47,122 - INFO: -==============-
+2016-12-09 07:55:47,122 - INFO: MUTA_version: 01
+2016-12-09 07:55:47,134 - INFO: ZMQ connect: PUB on tcp://127.0.0.1:5000 sending on basecamp.muta.reports
+2016-12-09 07:55:47,138 - INFO: ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to basecamp.muta.orders
+2016-12-09 07:55:47,138 - WARNING: MUTA operator interface is (re)starting!
+2016-12-09 07:55:47,150 - INFO: Device found!
+2016-12-09 07:55:47,151 - INFO: random bytes for this session: 0x5D81
+2016-12-09 07:55:47,153 - INFO: |RESET
+2016-12-09 07:55:47,154 - INFO: message received from 0000: {'type': 'NETWORK_REGISTER', 'UID': '01000001', 'sleeping': False}
+2016-12-09 07:55:47,157 - INFO: answering to NETWORK_REGISTER
+2016-12-09 07:55:47,174 - INFO: operator is saying: "scanning channels for noise..."
+2016-12-09 07:55:59,348 - INFO: operator is saying: "best channel: 0 (noise == 42)"
+2016-12-09 07:55:59,371 - INFO: operator is saying: "creating network..."
+2016-12-09 07:55:59,395 - INFO: operator is saying: "PANID:1337 Ch:00"
+2016-12-09 07:55:59,417 - INFO: operator is saying: "operator's address: 0000"
+2016-12-09 07:55:59,440 - INFO: operator is saying: "status: ready!"
+2016-12-09 07:55:59,460 - INFO: message received from 0000: {'res_RO': {'Nse': '42', 'Chn': '0'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'Pwr': '20.0mW'}}
+2016-12-09 07:55:59,483 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '1mn'}}
+2016-12-09 07:55:59,489 - INFO: detected pending updates for 0000: {'UpF': '5mn', 'Pwr': '1.25mW'}
+2016-12-09 07:55:59,493 - INFO: sending back UPDATE: S+ [0, 0, 13, 4, 255, 85, 112, 70, 20, 5, 80, 119, 114, 152, 1, 25]
+2016-12-09 07:55:59,505 - INFO: operator is saying: "accepting scans & connections"
+2016-12-09 07:55:59,558 - INFO: message received from 0000: {'res_RO': {}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {'UpF': '5mn', 'Pwr': '1.25mW'}}
+2016-12-09 07:57:06,102 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 07:57:06,105 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 07:57:06,414 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 07:57:06,726 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 07:57:07,025 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 07:57:07,305 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=69"
+2016-12-09 07:57:07,618 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=69"
+2016-12-09 07:57:07,914 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=67"
+2016-12-09 07:57:08,188 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=63"
+2016-12-09 07:57:08,484 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=60"
+2016-12-09 07:57:08,900 - INFO: message received from 0001: {'res_RO': {'Lit': '36%', 'Tmp': '22.37C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:57:09,085 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 07:57:09,150 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:57:41,102 - INFO: message received from 0001: {'res_RO': {'Lit': '36%', 'Tmp': '22.06C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:57:41,236 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 07:58:38,697 - INFO: message received from 0001: {'res_RO': {'Lit': '37%', 'Tmp': '21.81C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 07:58:38,823 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:00:44,829 - INFO: message received from 0001: {'type': 'NETWORK_REGISTER', 'UID': '01010002', 'sleeping': True}
+2016-12-09 08:00:44,834 - INFO: answering to NETWORK_REGISTER: authorization OK
+2016-12-09 08:00:45,134 - INFO: operator is saying: "0001:POWER_TEST: OK, 20mW, RSSI=69"
+2016-12-09 08:00:45,427 - INFO: operator is saying: "0001:POWER_TEST: OK, 10mW, RSSI=69"
+2016-12-09 08:00:45,723 - INFO: operator is saying: "0001:POWER_TEST: OK, 5mW, RSSI=69"
+2016-12-09 08:00:46,019 - INFO: operator is saying: "0001:POWER_TEST: OK, 2.5mW, RSSI=69"
+2016-12-09 08:00:46,315 - INFO: operator is saying: "0001:POWER_TEST: OK, 1.25mW, RSSI=69"
+2016-12-09 08:00:46,618 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.6mW, RSSI=68"
+2016-12-09 08:00:46,915 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.3mW, RSSI=63"
+2016-12-09 08:00:47,229 - INFO: operator is saying: "0001:POWER_TEST: OK, 0.15mW, RSSI=60"
+2016-12-09 08:00:47,618 - INFO: message received from 0001: {'res_RO': {'Lit': '18%', 'Tmp': '22.12C', 'VBa': '2.54V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:00:47,773 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {'UpF': '1mn', 'Pwr': '0.15mW'}}
+2016-12-09 08:00:47,884 - INFO: message received from 0001: {'res_RO': {'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:01:16,118 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:01:46,009 - INFO: message received from 0001: {'res_RO': {'Lit': '21%', 'Tmp': '21.75C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:01:46,138 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:02:43,588 - INFO: message received from 0001: {'res_RO': {'Lit': '21%', 'Tmp': '21.62C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:02:43,719 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:03:41,151 - INFO: message received from 0001: {'res_RO': {'Lit': '18%', 'Tmp': '21.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:03:41,285 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:04:38,713 - INFO: message received from 0001: {'res_RO': {'Lit': '18%', 'Tmp': '21.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:04:38,848 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:05:36,290 - INFO: message received from 0001: {'res_RO': {'Lit': '18%', 'Tmp': '21.5C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:05:36,417 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:06:32,680 - INFO: message received from 0000: {'res_RO': {'Upt': '0.0d'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
+2016-12-09 08:06:33,819 - INFO: message received from 0001: {'res_RO': {'Lit': '21%', 'Tmp': '21.43C', 'VBa': '2.55V'}, 'type': 'UPDATE', 'ack_required': False, 'res_RW': {}}
+2016-12-09 08:06:33,953 - INFO: message received from 0001: {'res_RO': {'Upt': '0.0d', 'FlM': '0.0%'}, 'type': 'UPDATE', 'ack_required': True, 'res_RW': {}}
