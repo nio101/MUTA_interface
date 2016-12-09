@@ -5,7 +5,7 @@ En attendant, on considère les °C comme signed... :s
 => ajouter un bit signed/unsigned pour faire le complément si signed lors du décodage
 
 BUG muta units : quand uptime >= 1j, pas d'unité affichée?
-unit_type: 0 (pas d'unité) ou bien 7 (days) ?
+unit_type: fixed16 days
 vérifier côté units & côté code operator/script python
 => fait planter l'export vers influxdb!
 
@@ -30,6 +30,12 @@ la liste des units et ajouter mW, puis:
 - encode l'uptime directement en fixed point de jours
 - encoder la puissance en fixed point de mW
 - coder le modèle/make sur 1 octet + 1 octet pour la version de MUTA/Tinypack
+
+valid:
+- OK pour interface
+- OK pour operator
+- scout: todo
+- relay: todo
 
 ------------------------------
 

@@ -8,13 +8,13 @@ Files used by this script:
 config.ini -> log file, USB vendor & product indicates
 authorized_units.csv -> list of units authorized for registering:
                         UID|alias|description
-                            UID = Unique Id == Model+protocol version+sub_UID
-                            ex.: 01 02 FF 01 -> scout mk2 #FF01
+                            UID = Unique Id == protocol version+Model+sub_UID
+                            ex.: 01 02 FF 01 -> MUTA v02 - scout - #FF01
+                            Protocol version: 01
                             Models:
                                     00: operator
                                     01: scout
                                     02: enforcer
-                            Protocol version: 01
                             sub_UID: 0001
 network_description.csv -> read-only network description table, reflects the current state of the network/nodes/values.
                     short_addr|UID|alias|description|power|last_RSSI|last_seen_ts|readonly_values_list(label: 'value')|readwrite_values_list(label: 'value')
