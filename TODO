@@ -1,5 +1,26 @@
 TODO
 
+vérifier que lors des cycles de sommeil successifs des scout, on ne réveille pas le MRF
+
+ajouter un random en nombre de secondes fourni lors du network_register par l'opérateur,
+et qui sera utilisé lors des retry par les unités...
+Attente de ce random de secondes avant de réessayer d'émettre...
+prendre un random(3-15) par exemple
+
+ajouter une liste de tags dans authorized_units.csv => network_description
+qui seront ajoutés dans influxdb à chaque update de l'unit
+exemple:
+indoor_flag: indoor|outdoor
+sleeping_flag: sleeping|always_on
+etç...
+et mettre un tag "location" salon, garage, etç...
+exporter les dashboard en json et les réimporter dans le nouveau/latest grafana
+
+ajouter une commande pour refaire le power test régulièrement...
+sans redémarrer... juste le power test et l'update qui correspond (si la valeur change)
+
+----------------------------
+
 BUG:Gérer proprement les signed/unsigned!
 En attendant, on considère les °C comme signed... :s
 => ajouter un bit signed/unsigned pour faire le complément si signed lors du décodage

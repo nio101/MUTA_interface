@@ -1,4 +1,4 @@
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 
@@ -560,7 +560,7 @@ def format_for_influxdb(m_dict):
             matchObj = re.match(u"^([0-9]*\.[0-9]*)mW$", value, re.M | re.I)
             if matchObj:
                 value = float(matchObj.group(1))
-
+                break
             # uint8 & uint16/mn
             matchObj = re.match("^([0-9]*)mn$", value, re.M | re.I)
             if matchObj:
@@ -657,6 +657,12 @@ def decode_values(values):
 
         # TODO: gérer le flag signed pour tous les types
         # pour l'instant: ignoré sauf pour °C
+
+        """
+        if (units_type == DEGREES_UNIT):
+            value = value + 128
+            print "value=", value, "signed=", signed
+        """
 
         # patch temporaire pour °c signed
         if ((units_type == DEGREES_UNIT) and (signed)):
@@ -1000,19 +1006,20 @@ while True:
                                 pending_db_updates[m_short_address_str] = merge_dicts(pending_db_updates[m_short_address_str], merge_dicts(res['res_RO'],res['res_RW']))
                             else:
                                 pending_db_updates[m_short_address_str] = merge_dicts(res['res_RO'],res['res_RW'])
-                            if (res['ack_required'] is True):                            
+                            if (res['ack_required'] is True): 
                                 if influxdb_enabled:
                                     # format the field updates for influxdb and write them to the influxdb database
                                     influx_json_body[0]['time'] = datetime.datetime.utcnow().isoformat()
                                     influx_json_body[0]['tags']['unit'] = network_description[m_short_address_str]['alias']
                                     influx_json_body[0]['fields'] = format_for_influxdb(pending_db_updates[m_short_address_str])
-                                    log.info("writing to influxdb: "+str(influx_json_body))
-                                    try:
-                                        client.write_points(influx_json_body)
-                                    except Exception as e:                   
-                                        print e.__str__()
-                                        log.error(e)
-                                        log.error("Error reaching infludb on "+str(influxdb_host)+":"+str(influxdb_port))
+                                    if (influx_json_body[0]['fields']):
+                                        log.info("writing to influxdb: "+str(influx_json_body))
+                                        try:
+                                            client.write_points(influx_json_body)
+                                        except Exception as e:                   
+                                            print e.__str__()
+                                            log.error(e)
+                                            log.error("Error reaching infludb on "+str(influxdb_host)+":"+str(influxdb_port))
                                 pending_db_updates.pop(m_short_address_str, None)
                                 # are there any updates left?
                                 if len(network_description[m_short_address_str]['pending_updates'].keys()) > 0:

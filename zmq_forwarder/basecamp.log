@@ -20,3 +20,9 @@
 2016-08-05 11:07:03,275 - [zmq_forwarder] INFO: ready: from PUB on 5000 to SUB on port 5001
 2016-11-26 08:51:15,303 - [zmq_forwarder] WARNING: zmq_forwarder is (re)starting !
 2016-11-26 08:51:15,304 - [zmq_forwarder] INFO: ready: from PUB on 5000 to SUB on port 5001
+2016-12-26 09:01:41,986 - [zmq_forwarder] WARNING: zmq_forwarder is (re)starting !
+2016-12-26 09:01:41,989 - [zmq_forwarder] INFO: ready: from PUB on 5000 to SUB on port 5001
+2017-01-08 07:03:53,328 - [zmq_forwarder] WARNING: zmq_forwarder is (re)starting !
+2017-01-08 07:03:53,331 - [zmq_forwarder] INFO: ready: from PUB on 5000 to SUB on port 5001
+2017-01-08 07:07:27,234 - [zmq_forwarder] WARNING: zmq_forwarder is (re)starting !
+2017-01-08 07:07:27,236 - [zmq_forwarder] INFO: ready: from PUB on 5000 to SUB on port 5001
