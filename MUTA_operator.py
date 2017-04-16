@@ -7,11 +7,9 @@ MUTA operator
 
 USB Interface between Basecamp and MUTA network's main operator
 
-Copyright (2015-2016) Nicolas Barthe,
+Copyright (2015-2017) Nicolas Barthe,
 distributed as open source under the terms
 of the GNU General Public License (see COPYING.txt)
-
-compatible with: MUTA_v01
 """
 
 
@@ -28,8 +26,8 @@ import ConfigParser
 import logging
 import logging.handlers
 import portalocker
-import zmq
-import msgpack
+# import zmq
+# import msgpack
 import random
 import math
 import socket
@@ -44,7 +42,7 @@ import requests
 
 def byteify(input):
     if isinstance(input, dict):
-        return {byteify(key):byteify(value) for key,value in input.iteritems()}
+        return {byteify(key): byteify(value) for key, value in input.iteritems()}
     elif isinstance(input, list):
         return [byteify(element) for element in input]
     elif isinstance(input, unicode):
@@ -757,8 +755,8 @@ authorized_units_file = config.get("files", "authorized_units")
 network_description_file = config.get("files", "network_description")
 pending_updates_file = config.get("files", "pending_updates")
 network_description_headers = config.get("headers", "network_description")
-zmq_reports_topic = config.get("zmq", "zmq_reports_topic")
-zmq_orders_topic = config.get("zmq", "zmq_orders_topic")
+# zmq_reports_topic = config.get("zmq", "zmq_reports_topic")
+# zmq_orders_topic = config.get("zmq", "zmq_orders_topic")
 if influxdb_enabled:
     from influxdb import InfluxDBClient
     influxdb_host = config.get("influxdb", "influxdb_host")
@@ -788,6 +786,7 @@ log.info(" MUTA interface")
 log.info("-==============-")
 log.info("MUTA_version: "+str(muta_version))
 
+"""
 # ZMQ setup
 context = zmq.Context()
 # muta reports channel
@@ -799,6 +798,7 @@ socket_receive = context.socket(zmq.SUB)
 socket_receive.connect("tcp://127.0.0.1:5001")
 socket_receive.setsockopt(zmq.SUBSCRIBE, zmq_orders_topic)
 log.info("ZMQ connect: SUB on tcp://127.0.0.1:5001, listening to %s" % zmq_orders_topic)
+"""
 
 if influxdb_enabled:
     # influxdb setup
@@ -966,7 +966,7 @@ while True:
         pending_db_updates = {}
         while connected is True:
 
-            # while there are messages coming from USB, read them and process them!
+            # while there are messages coming from USB, read them and process them
             timeout_on_reading = False
             while timeout_on_reading is False:
                 try:
@@ -993,11 +993,10 @@ while True:
                         log.info("message received from %s: %s" % (m_short_address_str, res))
                         # check content
                         if (res['type'] == 'UPDATE'):
-                            # - debug - à virer après tests
+                            # - debug stuff -
                             # if m_short_address_str != "0000":
                             # network_description[m_short_address_str]['pending_updates']['Pwr'] = "1"
-                            # - debug - à virer après tests
-                            # TODO: we should check pending_updates to eventually remove changes matching the current variables/values
+
                             for item in res['res_RW']:
                                 if item in network_description[m_short_address_str]['pending_updates'].keys():
                                     if res['res_RW'][item].lower() == network_description[m_short_address_str]['pending_updates'][item].lower():
@@ -1071,9 +1070,11 @@ while True:
                                     msg = 'S' + message
                                     log.debug("sending empty UPDATE as ack: S+ %s" % str(buff))
                                     pending_messages.append(msg)
+                                    """
                                     # send a report through the basecamp ZMQ PUB/SUB facility
                                     messagedata = msgpack.packb([network_description[m_short_address_str]['alias'], merge_dicts(network_description[m_short_address_str]['RO_values'], network_description[m_short_address_str]['RW_values'])])
                                     socket_send.send("%s %s" % (zmq_reports_topic, messagedata))
+                                    """
                         elif (res['type'] == 'NETWORK_REGISTER') and (m_short_address_str != "0000"):
                             load_UID_auth()  # reload if needed
                             result = check_UID_auth(res['UID'])
@@ -1154,7 +1155,9 @@ while True:
                     # connected = False
                     # sleep(3)
 
+            """
             # now check if any incoming zmq order is available on basecamp com' facility
+            # disabled until another IPC mechanism is chosen
             try:
                 string = socket_receive.recv(zmq.NOBLOCK)
             except zmq.ZMQError, e:
@@ -1182,12 +1185,10 @@ while True:
                         # we could also ignore this test to force the update
                         # - disabled for debug -
                         for name in values.keys():
-                            """
-                            if name not in network_description[m_short]['RW_values']:
-                                log.warning('basecamp.muta.orders variable name not in RW list: %s - ignored' % name)
-                            else:
-                                network_description[m_short]['pending_updates'][name] = values[name]
-                            """
+                            # if name not in network_description[m_short]['RW_values']:
+                            #    log.warning('basecamp.muta.orders variable name not in RW list: %s - ignored' % name)
+                            # else:
+                            #    network_description[m_short]['pending_updates'][name] = values[name]
                             # print "type of value:", type(values[name])
                             network_description[m_short]['pending_updates'][name] = values[name]
                         update_network_description_file()
@@ -1228,3 +1229,4 @@ while True:
                             # network device is a sleeping unit, decode and write/merge with pending updates
                             # they will be sent when the device wakes up & updates...
                             print "TODO"
+            """
