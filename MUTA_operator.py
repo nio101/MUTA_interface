@@ -7,6 +7,8 @@ MUTA operator
 
 USB Interface between Basecamp and MUTA network's main operator
 
+dependencies: logbook, influxdb
+
 Copyright (2015-2017) Nicolas Barthe,
 distributed as open source under the terms
 of the GNU General Public License (see COPYING.txt)
@@ -32,6 +34,7 @@ import random
 import math
 import socket
 import requests
+import time
 
 
 # imported later if influxdb flag in config.ini
@@ -748,6 +751,7 @@ muta_version = config.get("main", "MUTA_version")
 influxdb_enabled = int(config.get("main", "influxdb_enabled"), 8)
 linux_os = int(config.get("main", "linux_os"), 8)
 logbook_url = config.get('main', 'logbook_url')
+wait_at_startup = config.getint('main', 'wait_at_startup')
 log_file = config.get("log", "file")
 vendor_id = int(config.get("usb", "vendor_id"), 16)
 product_id = int(config.get("usb", "product_id"), 16)
@@ -785,6 +789,9 @@ log.info("-==============-")
 log.info(" MUTA interface")
 log.info("-==============-")
 log.info("MUTA_version: "+str(muta_version))
+
+log.info("waiting a few seconds to let dependencies start...")
+time.sleep(wait_at_startup)
 
 """
 # ZMQ setup
